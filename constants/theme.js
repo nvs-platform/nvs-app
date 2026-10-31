@@ -19,6 +19,7 @@ export const colors = {
     onPrimary: '#FFFFFF',
     error: '#BA1A1A',
     hairline: 'rgba(120,138,109,0.15)',
+    overlay: 'rgba(255,255,255,0.7)',
   },
   dark: {
     primary: '#5BC3DB',
@@ -34,6 +35,7 @@ export const colors = {
     onPrimary: '#0F2B33',
     error: '#FFB4AB',
     hairline: 'rgba(155,173,143,0.2)',
+    overlay: 'rgba(28,31,29,0.7)',
   },
 }
 

@@ -42,8 +42,8 @@ When something isn't specified, these decide it:
    outcomes. Exercise and guide texts are placeholders until a specialist supplies them,
    so don't invent clinical content.
 4. **The parent operates and the child watches.** Use large touch targets, usable with one
-   hand. In the player, the video is the hero and the controls stay visible, including in
-   landscape.
+   hand. In the player, the video is the hero: it fills the portrait screen and the controls
+   hide while it plays and come back on a tap.
 5. **Czech, warm, plain language, vykání.** Every visible string is Czech and addresses
    the parent formally („Vyberte si…", „Vítejte"). Mockup texts are often in tykání, so
    convert them.
@@ -84,14 +84,15 @@ The user set these while building the first screens. Follow them for new screens
   switching between child profiles (one parent, several children, each with their own
   progress), not a way to Nastavení; for now it is a placeholder with no action. On the
   right, an `ellipsis-horizontal-outline` icon opens `/settings`.
-- **Navigation direction is agreed, mostly built:** the tab bar in `app/(tabs)/`, the tab
-  header and the back arrow on detail screens are done. The headerless player is not built
-  yet. See „Navigation and headers" in `docs/DESIGN.md`. Don't build it unasked; just
-  don't work against it.
+- **Navigation is agreed and built:** the tab bar in `app/(tabs)/`, the tab header, the
+  back arrow on detail screens and the headerless fullscreen player (`app/workout.jsx`,
+  `headerShown: false`). See „Navigation and headers" and „Exercise player" in
+  `docs/DESIGN.md`.
 - **Page container:** give the root view
   `{ flex: 1, justifyContent: 'center', paddingHorizontal: 20 }`. Use a `ScrollView` for
-  long text. A screen without a header (`index`, later the player) starts under the status
-  bar, so keep its first text clear of the clock and battery.
+  long text. A screen without a header (`index`, the player) starts under the status
+  bar, so keep its first text clear of the clock and battery (the player uses
+  `useSafeAreaInsets()` for this).
 - **Will it fit a small phone (360×640)?** If a screen can be taller than that (calendar plus
   cards, a growing text field), wrap it: `ThemedView` (`styles.screen = { flex: 1 }`) →
   `ScrollView contentContainerStyle={styles.container}` with `paddingHorizontal: 20,

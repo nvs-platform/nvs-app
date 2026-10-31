@@ -1,28 +1,31 @@
 import { StyleSheet, Pressable, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { router } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEvent, useEventListener } from 'expo'
-import { useColors, fonts, spacing, radius } from '../constants/theme'
+import { useColors, spacing, radius } from '../constants/theme'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 //themed components
 import ThemedView from '../components/ThemedView'
-import ThemedText from '../components/ThemedText'
 
 // Today's exercise videos, played in this order
 const videos = [
-  require('../assets/videos/testcvik1.mp4'),
-  require('../assets/videos/testcvik2.mp4'),
-  require('../assets/videos/testcvik3.mp4'),
+  require('../assets/videos/greeting-01.mp4'),
+  require('../assets/videos/rocking-ball-01-wip.mp4'),
 ]
 
 const WorkoutScreen = () => {
   const colors = useColors()
   const styles = getStyles(colors)
+  const insets = useSafeAreaInsets()
 
   // Which exercise is playing now (0 = first)
   const [index, setIndex] = useState(0)
+
+  // Are the controls shown? They hide while playing and show again on tap
+  const [controlsVisible, setControlsVisible] = useState(true)
 
   // Video player
   const player = useVideoPlayer(videos[0], (player) => {
@@ -43,6 +46,13 @@ const WorkoutScreen = () => {
 
   // How much of the video has played: 0 = start, 1 = end
   const progress = player.duration > 0 ? currentTime / player.duration : 0
+
+  // How full the bar of exercise i is: done = 1, current = progress, next = 0
+  const segmentFill = (i) => {
+    if (i < index) return 1
+    if (i === index) return progress
+    return 0
+  }
 
   // Play the current exercise again from the start
   const restart = () => {
@@ -78,48 +88,90 @@ const WorkoutScreen = () => {
     goNext()
   })
 
+  // While the video plays, hide the controls after 2 seconds
+  useEffect(() => {
+    if (!isPlaying || !controlsVisible) return
+
+    const timer = setTimeout(() => setControlsVisible(false), 2000)
+    return () => clearTimeout(timer)
+  }, [isPlaying, controlsVisible])
+
   return (
     <ThemedView style={styles.container}>
-      <ThemedText style={styles.counter}>
-        Cvik {index + 1} ze {videos.length}
-      </ThemedText>
+      <VideoView
+        style={styles.video}
+        player={player}
+        nativeControls={false}
+        contentFit="cover"
+      />
 
-      <VideoView style={styles.video} player={player} nativeControls={false} />
+      <Pressable
+        style={styles.video}
+        onPress={() => setControlsVisible(true)}
+        accessibilityLabel="Zobrazit ovládání"
+      />
 
-      <View style={styles.controls}>
-        <Pressable
-          style={styles.button}
-          onPress={restart}
-          accessibilityLabel="Znovu od začátku"
-        >
-          <Ionicons name="refresh" size={28} color={colors.onPrimary} />
-        </Pressable>
+      <View style={[styles.topBar, { paddingTop: insets.top + spacing.md }]}>
+        <View style={styles.segments}>
+          {videos.map((video, i) => (
+            <View key={i} style={styles.segment}>
+              <View
+                style={[
+                  styles.segmentFill,
+                  { width: `${segmentFill(i) * 100}%` },
+                ]}
+              />
+            </View>
+          ))}
+        </View>
 
-        <Pressable
-          style={[styles.button, styles.playButton]}
-          onPress={togglePlay}
-          accessibilityLabel={isPlaying ? 'Pozastavit' : 'Přehrát'}
-        >
-          <View style={[styles.progress, { width: `${progress * 100}%` }]} />
-          <Ionicons
-            name={isPlaying ? 'pause' : 'play'}
-            size={28}
-            color={colors.text}
-          />
-        </Pressable>
-
-        <Pressable
-          style={styles.button}
-          onPress={goNext}
-          accessibilityLabel="Další cvik"
-        >
-          <Ionicons
-            name="play-skip-forward"
-            size={28}
-            color={colors.onPrimary}
-          />
-        </Pressable>
+        {controlsVisible && (
+          <Pressable
+            style={styles.backButton}
+            onPress={() => router.back()}
+            accessibilityLabel="Zpět"
+          >
+            <Ionicons name="arrow-back" size={24} color={colors.text} />
+          </Pressable>
+        )}
       </View>
+
+      {controlsVisible && (
+        <View
+          style={[
+            styles.controls,
+            { paddingBottom: insets.bottom + spacing.md },
+          ]}
+        >
+          <Pressable
+            style={styles.button}
+            onPress={restart}
+            accessibilityLabel="Znovu od začátku"
+          >
+            <Ionicons name="refresh" size={24} color={colors.text} />
+          </Pressable>
+
+          <Pressable
+            style={[styles.button, styles.playButton]}
+            onPress={togglePlay}
+            accessibilityLabel={isPlaying ? 'Pozastavit' : 'Přehrát'}
+          >
+            <Ionicons
+              name={isPlaying ? 'pause' : 'play'}
+              size={36}
+              color={colors.onPrimary}
+            />
+          </Pressable>
+
+          <Pressable
+            style={styles.button}
+            onPress={goNext}
+            accessibilityLabel="Další cvik"
+          >
+            <Ionicons name="play-skip-forward" size={24} color={colors.text} />
+          </Pressable>
+        </View>
+      )}
     </ThemedView>
   )
 }
@@ -132,41 +184,66 @@ const getStyles = (palette) =>
       flex: 1,
       paddingHorizontal: 20,
     },
-    counter: {
-      paddingTop: spacing.md,
-      fontFamily: fonts.bold,
-      fontSize: 15,
+
+    topBar: {
+      gap: spacing.md,
     },
-    video: {
-      width: '100%',
-      aspectRatio: 16 / 9,
-      marginTop: spacing.md,
-      borderRadius: radius.default,
-    },
-    controls: {
+    segments: {
       flexDirection: 'row',
-      gap: spacing.sm,
-      marginTop: spacing.lg,
+      gap: spacing['2xs'],
     },
-    button: {
-      width: 56,
-      minHeight: 56,
+    segment: {
+      flex: 1,
+      height: 4,
       borderRadius: radius.pill,
+      backgroundColor: palette.overlay,
+      overflow: 'hidden',
+    },
+    segmentFill: {
+      height: '100%',
       backgroundColor: palette.primary,
+    },
+
+    backButton: {
+      width: 48,
+      height: 48,
+      borderRadius: radius.pill,
+      backgroundColor: palette.overlay,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    video: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
+
+    controls: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: spacing.lg,
+      paddingTop: spacing.md,
+    },
+
+    button: {
+      width: 48,
+      height: 48,
+      borderRadius: radius.pill,
+      backgroundColor: palette.overlay,
       alignItems: 'center',
       justifyContent: 'center',
     },
     playButton: {
-      flex: 1,
-      backgroundColor: palette.mutedSurface,
-      overflow: 'hidden',
-    },
-    progress: {
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      bottom: 0,
+      width: 72,
+      height: 72,
       backgroundColor: palette.primary,
     },
-
   })

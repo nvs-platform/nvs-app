@@ -96,8 +96,8 @@ Whatever palette wins, the colors must keep good contrast (body text at least WC
 
 ## Navigation and headers
 
-Agreed with the user. Built: the tab bar, the shared tab header (avatar and three dots)
-and the back arrow on detail screens. Not built yet: the headerless exercise player.
+Agreed with the user. Built: the tab bar, the shared tab header (avatar and three dots),
+the back arrow on detail screens, and the headerless exercise player.
 
 - **Bottom tab bar** as the main navigation (Domů · Kalendář · Poznámky · Průvodce ·
   Profil). The exercise library is not a tab; it opens from „Průvodce".
@@ -108,8 +108,8 @@ and the back arrow on detail screens. Not built yet: the headerless exercise pla
   with no action. A large title or a short greeting fits here.
 - **Detail screens** (exercise detail, one note, a guide chapter) get the standard back
   arrow on the left of the header. The bottom „Zpět" links go away.
-- **Exercise player** has no header: the video goes to the top with floating round
-  buttons (back, more) over it.
+- **Exercise player** has no header: the video fills the whole screen and the controls
+  float over it (see „Exercise player" below).
 - **Overflow menu** (`⋮` on Android, `⋯` on iOS) only when a screen has 2+ secondary
   actions. No empty menu „just in case".
 
@@ -138,10 +138,33 @@ and the back arrow on detail screens. Not built yet: the headerless exercise pla
   with a 1 px `textAlt` border like the note card.
 - **Checkbox and radio:** 24 px circles. Checked state is a primary fill with a white
   check.
-- **Player controls:** restart, a large central play/pause and skip, styled like a clean
-  modern cassette deck. They are always visible in both portrait and landscape.
+- **Player controls:** see „Exercise player" below.
 - **Rest timer:** a large circular dial with a muted track, a primary fill and rounded
   bold numerals.
 - **Week progress:** gentle rounded "pebbles", not a hard progress bar or percentages.
 - **Icons:** simple outline icons. Stitch used Material Symbols names such as
   `play_arrow`, `replay`, `skip_next`, `spa`, `edit_note` and `menu_book`.
+
+## Exercise player
+
+Agreed with the user on 2026-10-31. The child should watch the character, not the
+controls, so the screen shows as little as possible over the video.
+
+- **Video** fills the whole screen, like a standard video player.
+- **Progress segments** at the top, always visible: thin (about 4 px) rounded bars across
+  the full width, one per exercise of the day, with a small gap between them. A finished
+  exercise is a full primary bar, the current one fills with primary as the video plays,
+  and upcoming ones are a light translucent track (`overlay`). They replace the text
+  counter („Cvik 1 ze 2") and the progress fill inside the play button, so the child
+  doesn't need to read anything.
+- **Back arrow** at the top left, under the segments, as on the other detail screens. It
+  is `router.back()`, so the icon is an arrow, not a house. It is required, because iPhone
+  has no system back button.
+- **Bottom controls:** three round buttons centred near the bottom edge — restart, a
+  larger play/pause in primary with a white icon (at least 56 px), and skip. Restart and
+  skip are smaller circles (at least 44 px) with a light translucent background
+  (`overlay`) and a dark icon, so they stay visible on any video. No wide bar or panel
+  behind them.
+- **Hiding:** while the video plays, the back arrow and the bottom controls hide after
+  2 seconds (shorter on purpose, so they don't distract the child); only the video and the segments stay. Tapping anywhere on the video
+  shows them again. When paused, they stay visible.

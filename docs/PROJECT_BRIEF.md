@@ -24,8 +24,8 @@ section 5 are a starting point that can change during implementation.
 - **Feel:** trustworthy and clear for adults, friendly and safe for small children.
   It should feel like a quality tool for parents, **not a game for toddlers**. Exercise is
   framed as a calm daily ritual, not as therapy.
-- **Platform:** mobile-first, portrait phone. Landscape is required for the video player.
-  Tablet is secondary.
+- **Platform:** mobile-first, portrait phone only, the video player included (portrait
+  9:16 videos, see section 7). Tablet is secondary.
 - **UI language:** Czech only. All visible text must be in Czech.
 - **Form of address: vykání.** Address the parent formally (for example „Vítejte",
   „Vyberte si čas", „Prohlédněte si cviky"). This is the current decision and may still be
@@ -130,22 +130,24 @@ one of 12 series. There is no big progress dashboard.
 
 ### Exercise player (core screen)
 
-- **The video is the focus:** a large 16:9 frame with rounded corners and no text overlays.
-- Compact top row: „Série 1 · 1. den", „Cvik 1 ze 4", and an info icon for the parent.
-  There is no prominent back button.
-- Bottom controls, always visible:
+- **The video is the focus:** it fills the whole screen, with no header and no text
+  overlays. Thin progress segments at the top (one per exercise of the day) show how far
+  the child is.
+- A round back arrow at the top left, and bottom controls:
   - **restart** the current exercise
   - large central **play/pause**
   - **skip** to the next exercise
 
-  The controls are styled like a clean, modern cassette player, without a literal
-  cassette.
+  While the video plays, the controls hide after 2 seconds and come back on a tap. The
+  exact layout is in „Exercise player" in [DESIGN.md](DESIGN.md).
 
+- **Later (not built yet):** „Série 1 · 1. den" and an info icon for the parent. The info
+  icon comes together with the exercise library, which holds the same exercise texts.
+  Where both go in the fullscreen player is not decided.
 - A subtle hint about what comes next, for example „Následuje: Chvilka odpočinku (20 s)".
 - **Info panel** („Poznámka pro rodiče" / „Instrukce pro rodiče", „Na co si dát pozor")
   opens over the video and has a „Zpět k videu" action. Opening it or pausing must
   **not reset the video position**.
-- **Landscape:** the video expands and the controls stay visible at the bottom or side.
 - **Rest state** „Chvilka odpočinku": large calm countdown (for example 00:20), a breathing
   cue, „Odpočiňte si, než budete pokračovat.", „Pokračovat", „Přeskočit odpočinek".
 - **Completion** „Máte hotovo!": „Děkujeme za společný čas. Dnešní cvičení je dokončeno.",
@@ -272,10 +274,11 @@ are placeholders from Pexels (author Ivan S) and will be replaced.
 
 **Filming**
 
-- **Landscape, 16:9** (phone held horizontally). The player shows a 16:9 frame in portrait
-  and fills the screen in landscape. Portrait video would look wrong in both.
+- **Portrait, 9:16** (phone held upright). The player fills the whole portrait screen
+  (`contentFit="cover"`), so phones with a taller screen crop a little at the sides.
 - The child (and the parent, if they help) is fully in frame for the whole exercise.
-  Keep a little space around them, nothing important at the edges.
+  Keep a little space around them, nothing important at the edges: the progress segments
+  and the back arrow sit over the top of the video and the controls over the bottom.
 - The same calm background, light and camera position for all exercises, so the videos
   look consistent.
 - The phone stands on a tripod, not hand-held.
@@ -287,7 +290,7 @@ are placeholders from Pexels (author Ivan S) and will be replaced.
 
 **Export for the app**
 
-- MP4, H.264, 1280×720, 25 or 30 fps, no sound track. Sound is not decided yet; if voice
+- MP4, H.264, 720×1280 (portrait), 24–30 fps, no sound track. Sound is not decided yet; if voice
   instructions are added, use AAC mono at 96 kbit/s.
 - Target size is about **2–3 MB per 30 s** of video.
 - File names in English, lowercase, kebab-case, named after the exercise
@@ -295,7 +298,7 @@ are placeholders from Pexels (author Ivan S) and will be replaced.
 - ffmpeg command used for the placeholders:
 
   ```bash
-  ffmpeg -i original.mp4 -an -vf scale=1280:720 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart starfish.mp4
+  ffmpeg -i original.mp4 -an -vf scale=720:1280 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart starfish.mp4
   ```
 
 **App size**
