@@ -27,7 +27,7 @@ colors in one theme file, and never hardcode hex values in components.
 
 | Role          | Value                 | Use                                                         |
 | ------------- | --------------------- | ----------------------------------------------------------- |
-| Primary       | `#35AFCB` (cyan-teal) | primary buttons, active controls, progress, timer fill      |
+| Primary       | `#1E7F96` (deep teal) | primary buttons, active controls, progress, timer fill      |
 | Secondary     | `#788A6D` (sage)      | info badges, tags, secondary states, active chips           |
 | Tertiary      | `#E9B69A` (apricot)   | encouragement, completion, gentle highlights                |
 | Background    | `#FFFFFF` (white)     | screen background, the same on every screen                 |

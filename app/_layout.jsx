@@ -66,7 +66,8 @@ const RootLayout = () => {
         <Stack.Screen name="notes/[date]" options={{ title: 'Poznámka' }} />
 
         <Stack.Screen name="workout" options={{ title: 'Cvičení' }} />
-        <Stack.Screen name="done" options={{ title: 'Hotovo' }} />
+        {/* The big „Hotovo" on the page is enough; the way on is the „Dále" button */}
+        <Stack.Screen name="done" options={{ headerShown: false }} />
         <Stack.Screen
           name="library/index"
           options={{ title: 'Knihovna cviků' }}

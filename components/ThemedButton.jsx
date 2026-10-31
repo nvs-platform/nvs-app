@@ -28,7 +28,6 @@ const ThemedButton = ({
 
   return (
     <Pressable
-      accessibilityRole="button"
       disabled={disabled}
       style={({ pressed }) => [
         styles.button,
@@ -43,6 +42,7 @@ const ThemedButton = ({
         style,
       ]}
       {...props}
+      role="button"
     >
       {icon && <Ionicons name={icon} size={20} color={textColor} />}
       <Text style={[styles.text, { color: textColor }]}>{title}</Text>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   shadow: {
-    boxShadow: '0 6px 16px -4px rgba(53, 175, 203, 0.35)',
+    boxShadow: '0 6px 16px -4px rgba(30, 127, 150, 0.35)',
   },
   pressed: {
     transform: [{ scale: 0.98 }],

@@ -5,7 +5,8 @@ import { useColorScheme } from 'react-native'
 // Both palettes have the same keys. `dark` is a first draft.
 export const colors = {
   light: {
-    primary: '#35AFCB',
+    // Darker than the first #35AFCB, so white button text has enough contrast (4.6 : 1)
+    primary: '#1E7F96',
     secondary: '#788A6D',
     tertiary: '#E9B69A',
     background: '#FFFFFF',
