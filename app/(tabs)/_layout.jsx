@@ -1,6 +1,20 @@
 import { Tabs } from 'expo-router'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import {
+  House,
+  CalendarDays,
+  NotebookPen,
+  Compass,
+  CircleUser,
+} from 'lucide-react-native'
 import { useColors } from '../../constants/theme'
+
+// Lucide has no filled icons, so the active tab gets a slightly thicker line
+// (its color comes from tabBarActiveTintColor)
+const tabIcon =
+  (Icon) =>
+  ({ focused, color, size }) => (
+    <Icon size={size} color={color} strokeWidth={focused ? 2.5 : 2} />
+  )
 
 const TabsLayout = () => {
   const palette = useColors()
@@ -21,13 +35,7 @@ const TabsLayout = () => {
         name="home"
         options={{
           title: 'Domů',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'home' : 'home-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: tabIcon(House),
         }}
       />
 
@@ -35,13 +43,7 @@ const TabsLayout = () => {
         name="calendar"
         options={{
           title: 'Kalendář',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'calendar' : 'calendar-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: tabIcon(CalendarDays),
         }}
       />
 
@@ -49,13 +51,7 @@ const TabsLayout = () => {
         name="notes"
         options={{
           title: 'Poznámky',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'pencil' : 'pencil-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: tabIcon(NotebookPen),
         }}
       />
 
@@ -63,13 +59,7 @@ const TabsLayout = () => {
         name="guide"
         options={{
           title: 'Průvodce',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'compass' : 'compass-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: tabIcon(Compass),
         }}
       />
 
@@ -77,13 +67,7 @@ const TabsLayout = () => {
         name="profile"
         options={{
           title: 'Profil',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'person' : 'person-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: tabIcon(CircleUser),
         }}
       />
     </Tabs>

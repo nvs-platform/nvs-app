@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Pressable, StyleSheet, View } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { Heart, Ellipsis } from 'lucide-react-native'
 import { useColors } from '../constants/theme'
 import {
   useFonts,
@@ -46,18 +46,14 @@ const RootLayout = () => {
             // Heart in the left corner of the header
             headerLeft: () => (
               <View style={styles.avatar}>
-                <Ionicons name="heart-outline" size={20} color={palette.text} />
+                <Heart size={20} color={palette.text} strokeWidth={2} />
               </View>
             ),
             // Icon in the right corner opens the settings
             headerRight: () => (
               <Link href="/settings" asChild>
                 <Pressable accessibilityLabel="Nastavení">
-                  <Ionicons
-                    name="ellipsis-horizontal-outline"
-                    size={24}
-                    color={palette.text}
-                  />
+                  <Ellipsis size={24} color={palette.text} strokeWidth={2} />
                 </Pressable>
               </Link>
             ),

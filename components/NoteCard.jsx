@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native'
 import { Link } from 'expo-router'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { Pencil } from 'lucide-react-native'
 import { useColors } from '../constants/theme'
 import ThemedCard from './ThemedCard'
 import ThemedText from './ThemedText'
@@ -19,7 +19,7 @@ const NoteCard = ({ note, title, style, showFullText = false }) => {
         >
           <View style={styles.header}>
             <ThemedText title={true}>{title}</ThemedText>
-            <Ionicons name="pencil-outline" size={20} color={palette.textAlt} />
+            <Pencil size={20} color={palette.textAlt} strokeWidth={2} />
           </View>
           <ThemedText numberOfLines={showFullText ? undefined : 2}>
             {note.text}

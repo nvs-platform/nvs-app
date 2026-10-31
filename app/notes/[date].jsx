@@ -19,6 +19,7 @@ import Spacer from '../../components/Spacer'
 
 //storage
 import { getNotes, saveNote, deleteNote } from '../../storage/records'
+import { Trash2 } from 'lucide-react-native'
 
 const NoteScreen = () => {
   const palette = useColors()
@@ -92,7 +93,7 @@ const NoteScreen = () => {
               <Spacer height={12} />
               <ThemedButton
                 title="Smazat poznámku"
-                icon="trash-outline"
+                icon={Trash2}
                 variant="secondary"
                 onPress={handleDelete}
               />

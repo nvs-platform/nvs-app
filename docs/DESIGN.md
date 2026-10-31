@@ -142,8 +142,17 @@ the back arrow on detail screens, and the headerless exercise player.
 - **Rest timer:** a large circular dial with a muted track, a primary fill and rounded
   bold numerals.
 - **Week progress:** gentle rounded "pebbles", not a hard progress bar or percentages.
-- **Icons:** simple outline icons. Stitch used Material Symbols names such as
-  `play_arrow`, `replay`, `skip_next`, `spa`, `edit_note` and `menu_book`.
+- **Icons:** [Lucide](https://lucide.dev) (`lucide-react-native`, needs `react-native-svg`),
+  agreed on 2026-10-31. One set for the whole app: outline, 2 px rounded strokes, no
+  filled variants. Pass the icon as a component (`icon={Plus}` on `ThemedButton`).
+  - Tab bar: `House`, `CalendarDays`, `NotebookPen`, `Compass`, `CircleUser`. The active tab
+    is shown by color (primary) and a stroke of 2.5 instead of 2.
+  - Header: `Heart` (avatar), `Ellipsis` (Nastavení).
+  - Buttons and cards: `Plus`, `Play`, `Trash2`, `Pencil`.
+  - Player: `ChevronLeft`, `RotateCcw`, `Play` / `Pause` and `SkipForward`; play, pause
+    and skip are filled (`fill` = the icon color) so they read as media buttons.
+  - Good fits for later: `Leaf`, `Lightbulb` (parent tips), `Sprout` (progress), `Timer`
+    (rest).
 
 ## Exercise player
 

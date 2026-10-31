@@ -16,6 +16,7 @@ import NoteCard from '../../components/NoteCard'
 
 //storage
 import { getExercisedDates, getNotes } from '../../storage/records'
+import { Plus } from 'lucide-react-native'
 
 LocaleConfig.locales.cs = {
   monthNames: [
@@ -144,7 +145,7 @@ const CalendarScreen = () => {
             {/* A note belongs to an exercise, so it can be added only on exercised days */}
             {isExercised && !selectedNote && (
               <Link href={`/notes/${selectedDate}`} asChild>
-                <ThemedButton title="Přidat poznámku" icon="add" />
+                <ThemedButton title="Přidat poznámku" icon={Plus} />
               </Link>
             )}
           </>

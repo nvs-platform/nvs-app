@@ -13,6 +13,7 @@ import NoteCard from '../../components/NoteCard'
 
 //storage
 import { getNotes } from '../../storage/records'
+import { Plus } from 'lucide-react-native'
 
 const NotesScreen = () => {
   const [notes, setNotes] = useState([])
@@ -41,7 +42,7 @@ const NotesScreen = () => {
       </ThemedText>
       <Spacer height={24} />
       <Link href={`/notes/${today}`} asChild>
-        <ThemedButton title="Přidat poznámku" icon="add" />
+        <ThemedButton title="Přidat poznámku" icon={Plus} />
       </Link>
       <Spacer height={24} />
 

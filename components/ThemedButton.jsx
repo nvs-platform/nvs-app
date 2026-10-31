@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet, Text } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import { useColors, typography, spacing, radius } from '../constants/theme'
 
 // Pill button from docs/DESIGN.md.
 // variant: 'primary' (default), 'secondary' or 'encouragement'
-// icon: optional Ionicons name shown before the title, e.g. 'play'
+// icon: optional Lucide icon component shown before the title, e.g. Play
+//   (import { Play } from 'lucide-react-native', then icon={Play})
 const ThemedButton = ({
   title,
-  icon,
+  icon: Icon,
   variant = 'primary',
   disabled = false,
   style,
@@ -44,7 +44,7 @@ const ThemedButton = ({
       {...props}
       role="button"
     >
-      {icon && <Ionicons name={icon} size={20} color={textColor} />}
+      {Icon && <Icon size={20} color={textColor} strokeWidth={2} />}
       <Text style={[styles.text, { color: textColor }]}>{title}</Text>
     </Pressable>
   )

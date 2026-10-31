@@ -1,7 +1,13 @@
 import { StyleSheet, Pressable, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { router } from 'expo-router'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import {
+  ChevronLeft,
+  RotateCcw,
+  Play,
+  Pause,
+  SkipForward,
+} from 'lucide-react-native'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEvent, useEventListener } from 'expo'
 import { useColors, spacing, radius } from '../constants/theme'
@@ -131,7 +137,7 @@ const WorkoutScreen = () => {
             onPress={() => router.back()}
             accessibilityLabel="Zpět"
           >
-            <Ionicons name="arrow-back" size={24} color={colors.text} />
+            <ChevronLeft size={24} color={colors.text} strokeWidth={2} />
           </Pressable>
         )}
       </View>
@@ -148,7 +154,7 @@ const WorkoutScreen = () => {
             onPress={restart}
             accessibilityLabel="Znovu od začátku"
           >
-            <Ionicons name="refresh" size={24} color={colors.text} />
+            <RotateCcw size={24} color={colors.text} strokeWidth={2} />
           </Pressable>
 
           <Pressable
@@ -156,11 +162,21 @@ const WorkoutScreen = () => {
             onPress={togglePlay}
             accessibilityLabel={isPlaying ? 'Pozastavit' : 'Přehrát'}
           >
-            <Ionicons
-              name={isPlaying ? 'pause' : 'play'}
-              size={36}
-              color={colors.onPrimary}
-            />
+            {isPlaying ? (
+              <Pause
+                size={36}
+                color={colors.onPrimary}
+                fill={colors.onPrimary}
+                strokeWidth={2}
+              />
+            ) : (
+              <Play
+                size={36}
+                color={colors.onPrimary}
+                fill={colors.onPrimary}
+                strokeWidth={2}
+              />
+            )}
           </Pressable>
 
           <Pressable
@@ -168,7 +184,12 @@ const WorkoutScreen = () => {
             onPress={goNext}
             accessibilityLabel="Další cvik"
           >
-            <Ionicons name="play-skip-forward" size={24} color={colors.text} />
+            <SkipForward
+              size={24}
+              color={colors.text}
+              fill={colors.text}
+              strokeWidth={2}
+            />
           </Pressable>
         </View>
       )}

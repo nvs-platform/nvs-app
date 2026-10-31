@@ -7,6 +7,7 @@ import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedCard from '../../components/ThemedCard'
+import { Play } from 'lucide-react-native'
 
 const HomeScreen = () => {
   const styles = getStyles(useColors())
@@ -19,7 +20,7 @@ const HomeScreen = () => {
         <ThemedText style={styles.todayDay}>3. den z cyklu</ThemedText>
 
         <Link href="/workout" asChild>
-          <ThemedButton title="Cvičíme dnes" icon="play" />
+          <ThemedButton title="Cvičíme dnes" icon={Play} />
         </Link>
       </ThemedCard>
     </ThemedView>

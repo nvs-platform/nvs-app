@@ -80,7 +80,7 @@ The user set these while building the first screens. Follow them for new screens
 - **Header from the Stack.** `app/_layout.jsx` shows the native header; each screen's
   Czech title is set there in a `<Stack.Screen name=… options={{ title: … }} />`. Add a line
   for every new screen. `index` (welcome) has no header. The tabs share one header, set on
-  the `(tabs)` screen: the **avatar** in `headerLeft` (`greySurface` circle with a `text`-colored Ionicons `heart-outline`, not primary, so it doesn't look like the main button). The avatar is for
+  the `(tabs)` screen: the **avatar** in `headerLeft` (`greySurface` circle with a `text`-colored Lucide `Heart`, not primary, so it doesn't look like the main button). The avatar is for
   switching between child profiles (one parent, several children, each with their own
   progress), not a way to Nastavení; for now it is a placeholder with no action. On the
   right, an `ellipsis-horizontal-outline` icon opens `/settings`.
@@ -163,8 +163,8 @@ The user set these while building the first screens. Follow them for new screens
    - `SafeAreaView` from `react-native-safe-area-context`
    - `ScrollView` or `FlatList` for long content
    - `Pressable` with a subtle pressed state
-   - icons from `@expo/vector-icons` (installed; outline icons, e.g. Ionicons
-     `person-outline`, MaterialIcons)
+   - icons from `lucide-react-native` (outline, 2 px stroke; see „Icons" in
+     `docs/DESIGN.md`), not `@expo/vector-icons`
    - new packages only via `npx expo install` (see `AGENTS.md`). `react-dom` is pinned to
      the same version as `react`; keep them equal, or npm fails with ERESOLVE.
 4. **Check the rules:**
