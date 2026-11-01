@@ -121,6 +121,22 @@ The user set these while building the first screens. Follow them for new screens
     „Poznámky" (date as title, 2-line preview) and „Kalendář" („Poznámka", full text). The
     whole card links to `/notes/<date>`. Change the note look here, not in the screens.
   - Import them under a `//themed components` comment, as in `app/index.jsx`.
+- **Smart screens, dumb components.** The screen file in `app/` is the "smart" part: it
+  holds the state (`useState`), loads and saves records through `storage/records.js`
+  (`useFocusEffect` in tabs, `useEffect` in detail screens), sorts and filters, and decides
+  what to show (empty state, loading). Components in `components/` are "dumb": they only
+  draw what they get in props.
+  - A component never imports `storage/records.js` and has no `useState`/`useEffect` for
+    data. If it needs data, the screen loads it and passes it in a prop.
+  - Allowed in a component: `useColors()` (theme), a `Link`/`Pressable` that it always
+    has (like `NoteCard` → `/notes/<date>`), and props such as `onPress`, `disabled` or
+    `variant`. The screen decides what happens on press.
+  - The screen prepares texts and values; the component just shows them. Example:
+    `notes.jsx` formats the date and passes it as `title` to `NoteCard`.
+  - Keep it simple: the screen itself is the smart component. Don't add separate
+    `*Container` files or wrappers around screens.
+  - When a screen grows long (e.g. `app/workout.jsx`), move repeated or self-contained UI
+    pieces into a dumb component in `components/`; the state stays in the screen.
 - **Page title** is bold, 26 px, `ThemedText` with `title={true}`, aligned left
   (`alignSelf: 'flex-start'`).
 - **Colors:** get the palette with `useColors()` from `constants/theme.js` (light or dark,
