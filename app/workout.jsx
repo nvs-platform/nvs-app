@@ -1,5 +1,5 @@
 import { StyleSheet, Pressable, View } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { router } from 'expo-router'
 import {
   ChevronLeft,
@@ -9,6 +9,7 @@ import {
   SkipForward,
 } from 'lucide-react-native'
 import { useVideoPlayer, VideoView } from 'expo-video'
+import { BlurView, BlurTargetView } from 'expo-blur'
 import { useEvent, useEventListener } from 'expo'
 import { useColors, spacing, radius } from '../constants/theme'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -32,6 +33,9 @@ const WorkoutScreen = () => {
 
   // Are the controls shown? They hide while playing and show again on tap
   const [controlsVisible, setControlsVisible] = useState(true)
+
+  // The video behind the glass, so BlurView knows what to blur (Android)
+  const blurTarget = useRef(null)
 
   // Video player
   const player = useVideoPlayer(videos[0], (player) => {
@@ -104,12 +108,15 @@ const WorkoutScreen = () => {
 
   return (
     <ThemedView style={styles.container}>
-      <VideoView
-        style={styles.video}
-        player={player}
-        nativeControls={false}
-        contentFit="cover"
-      />
+      <BlurTargetView ref={blurTarget} style={styles.video}>
+        <VideoView
+          style={styles.video}
+          player={player}
+          nativeControls={false}
+          contentFit="cover"
+          surfaceType="textureView"
+        />
+      </BlurTargetView>
 
       <Pressable
         style={styles.video}
@@ -118,80 +125,93 @@ const WorkoutScreen = () => {
       />
 
       <View style={[styles.topBar, { paddingTop: insets.top + spacing.md }]}>
-        <View style={styles.segments}>
-          {videos.map((video, i) => (
-            <View key={i} style={styles.segment}>
-              <View
-                style={[
-                  styles.segmentFill,
-                  { width: `${segmentFill(i) * 100}%` },
-                ]}
-              />
-            </View>
-          ))}
-        </View>
-
         {controlsVisible && (
-          <Pressable
+          <BlurView
             style={styles.backButton}
-            onPress={() => router.back()}
-            accessibilityLabel="Zpět"
+            blurTarget={blurTarget}
+            blurMethod="none"
+            intensity={80}
+            blurReductionFactor={1}
+            tint="light"
           >
-            <ChevronLeft size={24} color={colors.text} strokeWidth={2} />
-          </Pressable>
+            <Pressable
+              style={styles.backPress}
+              onPress={() => router.back()}
+              accessibilityLabel="Zpět"
+            >
+              <ChevronLeft size={24} color={colors.text} strokeWidth={2} />
+            </Pressable>
+          </BlurView>
         )}
       </View>
 
       {controlsVisible && (
-        <View
-          style={[
-            styles.controls,
-            { paddingBottom: insets.bottom + spacing.md },
-          ]}
+        <BlurView
+          style={[styles.capsule, { bottom: insets.bottom + spacing.lg }]}
+          blurTarget={blurTarget}
+          blurMethod="none"
+          intensity={80}
+          blurReductionFactor={1}
+          tint="light"
         >
-          <Pressable
-            style={styles.button}
-            onPress={restart}
-            accessibilityLabel="Znovu od začátku"
-          >
-            <RotateCcw size={24} color={colors.text} strokeWidth={2} />
-          </Pressable>
+          <View style={styles.segments}>
+            {videos.map((video, i) => (
+              <View key={i} style={styles.segment}>
+                <View
+                  style={[
+                    styles.segmentFill,
+                    { width: `${segmentFill(i) * 100}%` },
+                  ]}
+                />
+              </View>
+            ))}
+          </View>
 
-          <Pressable
-            style={[styles.button, styles.playButton]}
-            onPress={togglePlay}
-            accessibilityLabel={isPlaying ? 'Pozastavit' : 'Přehrát'}
-          >
-            {isPlaying ? (
-              <Pause
-                size={36}
-                color={colors.onPrimary}
-                fill={colors.onPrimary}
+          <View style={styles.controlsRow}>
+            <Pressable
+              style={styles.button}
+              onPress={restart}
+              accessibilityLabel="Znovu od začátku"
+            >
+              <RotateCcw size={24} color={colors.text} strokeWidth={2} />
+            </Pressable>
+
+            <Pressable
+              style={[styles.button, styles.playButton]}
+              onPress={togglePlay}
+              accessibilityLabel={isPlaying ? 'Pozastavit' : 'Přehrát'}
+            >
+              {isPlaying ? (
+                <Pause
+                  size={28}
+                  color={colors.onPrimary}
+                  fill={colors.onPrimary}
+                  strokeWidth={2}
+                />
+              ) : (
+                <Play
+                  size={28}
+                  color={colors.onPrimary}
+                  fill={colors.onPrimary}
+                  strokeWidth={2}
+                />
+              )}
+            </Pressable>
+
+            <Pressable
+              style={styles.button}
+              onPress={goNext}
+              accessibilityLabel="Další cvik"
+            >
+              <SkipForward
+                size={24}
+                color={colors.text}
+                fill={colors.text}
                 strokeWidth={2}
               />
-            ) : (
-              <Play
-                size={36}
-                color={colors.onPrimary}
-                fill={colors.onPrimary}
-                strokeWidth={2}
-              />
-            )}
-          </Pressable>
-
-          <Pressable
-            style={styles.button}
-            onPress={goNext}
-            accessibilityLabel="Další cvik"
-          >
-            <SkipForward
-              size={24}
-              color={colors.text}
-              fill={colors.text}
-              strokeWidth={2}
-            />
-          </Pressable>
-        </View>
+            </Pressable>
+          </View>
+        </BlurView>
       )}
     </ThemedView>
   )
@@ -217,7 +237,7 @@ const getStyles = (palette) =>
       flex: 1,
       height: 4,
       borderRadius: radius.pill,
-      backgroundColor: palette.overlay,
+      backgroundColor: palette.track,
       overflow: 'hidden',
     },
     segmentFill: {
@@ -226,10 +246,16 @@ const getStyles = (palette) =>
     },
 
     backButton: {
-      width: 48,
-      height: 48,
+      width: 44,
+      height: 44,
       borderRadius: radius.pill,
-      backgroundColor: palette.overlay,
+      backgroundColor: palette.glass,
+      borderWidth: 1,
+      borderColor: palette.glassBorder,
+      overflow: 'hidden',
+    },
+    backPress: {
+      flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -242,29 +268,37 @@ const getStyles = (palette) =>
       right: 0,
     },
 
-    controls: {
+    capsule: {
       position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: 0,
+      alignSelf: 'center',
+      width: 300,
+      gap: 10,
+      paddingTop: 14,
+      paddingHorizontal: 18,
+      paddingBottom: 12,
+      borderRadius: 28,
+      backgroundColor: palette.glass,
+      borderWidth: 1,
+      borderColor: palette.glassBorder,
+      overflow: 'hidden',
+    },
+    controlsRow: {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      gap: spacing.lg,
-      paddingTop: spacing.md,
+      gap: spacing.xl,
     },
 
     button: {
       width: 48,
       height: 48,
       borderRadius: radius.pill,
-      backgroundColor: palette.overlay,
       alignItems: 'center',
       justifyContent: 'center',
     },
     playButton: {
-      width: 72,
-      height: 72,
+      width: 60,
+      height: 60,
       backgroundColor: palette.primary,
     },
   })

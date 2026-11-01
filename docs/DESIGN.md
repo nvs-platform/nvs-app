@@ -109,7 +109,8 @@ the back arrow on detail screens, and the headerless exercise player.
 - **Detail screens** (exercise detail, one note, a guide chapter) get the standard back
   arrow on the left of the header. The bottom „Zpět" links go away.
 - **Exercise player** has no header: the video fills the whole screen and the controls
-  float over it (see „Exercise player" below).
+  float over it in glass — a round back arrow at the top and one capsule at the bottom
+  (see „Exercise player" below).
 - **Overflow menu** (`⋮` on Android, `⋯` on iOS) only when a screen has 2+ secondary
   actions. No empty menu „just in case".
 
@@ -156,24 +157,39 @@ the back arrow on detail screens, and the headerless exercise player.
 
 ## Exercise player
 
-Agreed with the user on 2026-10-31. The child should watch the character, not the
-controls, so the screen shows as little as possible over the video.
+Agreed with the user on 2026-10-31: variant **B — glass capsule**. The child should watch
+the character, not the controls, so everything the parent needs sits in one frosted
+capsule at the bottom and a small row at the top. Mockups of all variants (B is the
+chosen one) are on the design canvas „Přehrávač cvičení – návrhy".
 
-- **Video** fills the whole screen, like a standard video player.
-- **Progress segments** at the top, always visible: thin (about 4 px) rounded bars across
-  the full width, one per exercise of the day, with a small gap between them. A finished
-  exercise is a full primary bar, the current one fills with primary as the video plays,
-  and upcoming ones are a light translucent track (`overlay`). They replace the text
-  counter („Cvik 1 ze 2") and the progress fill inside the play button, so the child
-  doesn't need to read anything.
-- **Back arrow** at the top left, under the segments, as on the other detail screens. It
-  is `router.back()`, so the icon is an arrow, not a house. It is required, because iPhone
-  has no system back button.
-- **Bottom controls:** three round buttons centred near the bottom edge — restart, a
-  larger play/pause in primary with a white icon (at least 56 px), and skip. Restart and
-  skip are smaller circles (at least 44 px) with a light translucent background
-  (`overlay`) and a dark icon, so they stay visible on any video. No wide bar or panel
-  behind them.
-- **Hiding:** while the video plays, the back arrow and the bottom controls hide after
-  2 seconds (shorter on purpose, so they don't distract the child); only the video and the segments stay. Tapping anywhere on the video
-  shows them again. When paused, they stay visible.
+- **Video** fills the whole screen, like a standard video player. Nothing covers the
+  character in the middle of the screen.
+- **Glass surfaces:** every control over the video uses the same look, chosen with the
+  user on 2026-11-01 — a milky white fill (`glass`, `rgba(255,255,255,0.7)`) and a 1 px
+  soft dark border (`glassBorder`, `rgba(48,63,73,0.12)`), both in `constants/theme.js`.
+  Icons on glass are `text`, never white and never pure black. The surfaces are
+  `BlurView`s from `expo-blur` (`blurTarget` = the `BlurTargetView` around the video,
+  `intensity` 80, `blurReductionFactor` 1, because Android otherwise divides the
+  intensity by 4). Blur is **off on Android for now** (`blurMethod="none"`): at 70 %
+  white the difference was hardly visible. Open: switch it on
+  (`dimezisBlurViewSdk31Plus`) or drop `expo-blur`.
+- **Top row** (16 px under the top safe area, 20 px from the side): a round **back
+  arrow**, 44 px, glass, lucide `ChevronLeft`. It is `router.back()`, so the icon points
+  back, not to a house. It is required, because iPhone has no system back button. No
+  exercise name and no settings button for now (later, if needed).
+- **Bottom capsule**, centred, 300 px wide (never wider than the screen minus 2 × 20 px),
+  24 px above the bottom safe area so it doesn't clash with the system home gesture.
+  Radius 28 px, padding 14 px top, 18 px sides, 12 px bottom, two rows with 10 px between:
+  1. **Progress segments** — one per exercise of the day, 4 px tall, fully rounded, 4 px
+     gap; a finished exercise is a full primary bar, the current one fills with primary
+     as the video plays, upcoming ones are a `track` (`text` at 18 % opacity). The
+     elapsed time and „1/4" were left out for now.
+  2. **Controls row**, centred with 32 px gaps: **restart** (48 px, no background,
+     `RotateCcw`) · **play/pause** (60 px primary circle, filled `Play` / `Pause` in
+     `onPrimary`) · **skip** (48 px, no background, filled `SkipForward`). No other
+     buttons in the capsule.
+- **Hiding:** while the video plays, the back arrow and the whole capsule hide after
+  2 seconds (shorter on purpose, so they don't distract the child); only the video stays.
+  Tapping anywhere on the video shows them again. When paused, they stay visible. Today
+  they disappear at once; a soft fade of about 200 ms (no sliding or bouncing) is planned.
+- **Touch targets** stay at least 44 px even where the icon is smaller.

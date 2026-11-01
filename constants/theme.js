@@ -20,6 +20,9 @@ export const colors = {
     error: '#BA1A1A',
     hairline: 'rgba(120,138,109,0.15)',
     overlay: 'rgba(255,255,255,0.7)',
+    glass: 'rgba(255,255,255,0.7)',
+    glassBorder: 'rgba(48,63,73,0.12)',
+    track: 'rgba(48,63,73,0.18)',
   },
   dark: {
     primary: '#5BC3DB',
@@ -36,6 +39,9 @@ export const colors = {
     error: '#FFB4AB',
     hairline: 'rgba(155,173,143,0.2)',
     overlay: 'rgba(28,31,29,0.7)',
+    glass: 'rgba(28,31,29,0.85)',
+    glassBorder: 'rgba(255,255,255,0.15)',
+    track: 'rgba(237,234,227,0.18)',
   },
 }
 

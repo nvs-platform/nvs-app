@@ -130,10 +130,10 @@ one of 12 series. There is no big progress dashboard.
 
 ### Exercise player (core screen)
 
-- **The video is the focus:** it fills the whole screen, with no header and no text
-  overlays. Thin progress segments at the top (one per exercise of the day) show how far
-  the child is.
-- A round back arrow at the top left, and bottom controls:
+- **The video is the focus:** it fills the whole screen, with no header and no text over
+  it.
+- At the top: a round glass **back arrow** on the left. At the bottom: one glass
+  **capsule** with the progress segments (one per exercise of the day) and the controls:
   - **restart** the current exercise
   - large central **play/pause**
   - **skip** to the next exercise
@@ -141,9 +141,10 @@ one of 12 series. There is no big progress dashboard.
   While the video plays, the controls hide after 2 seconds and come back on a tap. The
   exact layout is in „Exercise player" in [DESIGN.md](DESIGN.md).
 
-- **Later (not built yet):** „Série 1 · 1. den" and an info icon for the parent. The info
-  icon comes together with the exercise library, which holds the same exercise texts.
-  Where both go in the fullscreen player is not decided.
+- **Later (not built yet):** the exercise name, the elapsed time and „1/4", „Série 1 ·
+  1. den" and an info icon for the parent. The info
+     icon comes together with the exercise library, which holds the same exercise texts.
+     Where both go in the fullscreen player is not decided.
 - A subtle hint about what comes next, for example „Následuje: Chvilka odpočinku (20 s)".
 - **Info panel** („Poznámka pro rodiče" / „Instrukce pro rodiče", „Na co si dát pozor")
   opens over the video and has a „Zpět k videu" action. Opening it or pausing must
