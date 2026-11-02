@@ -59,4 +59,3 @@ export const deleteNote = async (date) => {
   const remainingNotes = notes.filter((note) => note.date !== date)
   await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(remainingNotes))
 }
-  

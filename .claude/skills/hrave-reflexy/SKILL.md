@@ -96,10 +96,10 @@ The user set these while building the first screens. Follow them for new screens
 - **Will it fit a small phone (360×640)?** If a screen can be taller than that (calendar plus
   cards, a growing text field), wrap it: `ThemedView` (`styles.screen = { flex: 1 }`) →
   `ScrollView contentContainerStyle={styles.container}` with `paddingHorizontal: 20,
-  paddingBottom: 24` and no `flex: 1` (otherwise nothing scrolls). Otherwise buttons end up
+paddingBottom: 24` and no `flex: 1` (otherwise nothing scrolls). Otherwise buttons end up
   under the tab bar.
 - **Screens with a text field** (`app/notes/[date].jsx`): add `KeyboardAvoidingView
-  behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="handled"`, so
+behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="handled"`, so
   „Uložit" is never hidden by the keyboard or pushed off by a long text.
 - **Themed components** in `components/` (the user made them; use them on every screen):
   - `ThemedView` instead of the root `View`; it sets `palette.background`. A long screen
@@ -135,8 +135,20 @@ The user set these while building the first screens. Follow them for new screens
     `notes.jsx` formats the date and passes it as `title` to `NoteCard`.
   - Keep it simple: the screen itself is the smart component. Don't add separate
     `*Container` files or wrappers around screens.
-  - When a screen grows long (e.g. `app/workout.jsx`), move repeated or self-contained UI
-    pieces into a dumb component in `components/`; the state stays in the screen.
+  - When a screen grows long, move self-contained UI pieces into a dumb component in
+    `components/`.
+  - **Logic that can be reused goes into a hook** in `hooks/` (a `use…` function that
+    returns values and actions and draws nothing), not into a smart component. The user
+    chose this on 2026-11-02 for the player. A hook never calls `router` or
+    `storage/records.js` itself: the screen passes in what should happen, as a callback
+    (`useExercisePlayer(videos, () => router.replace('/done'))`). The screen calls the
+    hook and passes its values to dumb components as props: data flows down, taps come
+    back up through `on…` props.
+  - The player is the example: `app/workout.jsx` (video, back arrow, which videos, where
+    to go after the last one) → `hooks/useExercisePlayer.js` (index, playing, pausing,
+    skipping, auto-hide; returns `player`, `index`, `progress`, `isPlaying`,
+    `controlsVisible`, `showControls`, `restart`, `togglePlay`, `goNext`) →
+    `components/PlayerControls.jsx` (the glass capsule: segments and three buttons).
 - **Page title** is bold, 26 px, `ThemedText` with `title={true}`, aligned left
   (`alignSelf: 'flex-start'`).
 - **Colors:** get the palette with `useColors()` from `constants/theme.js` (light or dark,

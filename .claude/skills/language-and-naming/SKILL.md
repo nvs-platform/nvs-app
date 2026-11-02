@@ -89,6 +89,7 @@ function pluralize(count, one, few, many) {
 | Booleans                             | `is` / `has` / `can` prefix                | `isDone`, `hasNotes`                                            |
 | Event handlers                       | `handle…` inside, `on…` as a prop          | `handlePress`, `onPress={handlePress}`                          |
 | Hooks                                | `use…`                                     | `useProgress`                                                   |
+| Hook files in `hooks/`               | camelCase, same as the hook, `.js`         | `hooks/useExercisePlayer.js`                                    |
 | Real constants                       | UPPER_SNAKE_CASE                           | `EXERCISES_PER_DAY = 4`                                         |
 | Style keys in `StyleSheet.create`    | camelCase                                  | `container`, `buttonText`                                       |
 | Other folders                        | lowercase                                  | `components/`, `theme/`, `data/`, `assets/img/`                 |

@@ -172,14 +172,17 @@ chosen one) are on the design canvas „Přehrávač cvičení – návrhy".
   `intensity` 80, `blurReductionFactor` 1, because Android otherwise divides the
   intensity by 4). Blur is **off on Android for now** (`blurMethod="none"`): at 70 %
   white the difference was hardly visible. Open: switch it on
-  (`dimezisBlurViewSdk31Plus`) or drop `expo-blur`.
+  (`dimezisBlurViewSdk31Plus`) or drop `expo-blur`. `tint="light"` is fixed for now;
+  when dark mode is switched on (`"automatic"` in `app.json`), it should follow the color
+  scheme like `glass` does.
 - **Top row** (16 px under the top safe area, 20 px from the side): a round **back
   arrow**, 44 px, glass, lucide `ChevronLeft`. It is `router.back()`, so the icon points
   back, not to a house. It is required, because iPhone has no system back button. No
   exercise name and no settings button for now (later, if needed).
 - **Bottom capsule**, centred, 300 px wide (never wider than the screen minus 2 × 20 px),
   24 px above the bottom safe area so it doesn't clash with the system home gesture.
-  Radius 28 px, padding 14 px top, 18 px sides, 12 px bottom, two rows with 10 px between:
+  Radius `radius.card` (32 px), padding `spacing.md` (16 px) top and sides, `spacing.sm`
+  (12 px) bottom, two rows with `spacing.sm` (12 px) between:
   1. **Progress segments** — one per exercise of the day, 4 px tall, fully rounded, 4 px
      gap; a finished exercise is a full primary bar, the current one fills with primary
      as the video plays, upcoming ones are a `track` (`text` at 18 % opacity). The
