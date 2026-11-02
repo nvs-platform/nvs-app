@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useVideoPlayer } from 'expo-video'
 import { useEvent, useEventListener } from 'expo'
+import { useKeepAwake } from 'expo-keep-awake'
 
 // The logic of the exercise player: plays the videos one by one,
 // pauses, skips, and hides the controls. No look here, only state.
 const useExercisePlayer = (videos, onFinish) => {
+  // Keep the screen on while the player is open
+  useKeepAwake()
+
   // Which exercise is playing now (0 = first)
   const [index, setIndex] = useState(0)
 
