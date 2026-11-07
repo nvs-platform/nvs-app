@@ -87,6 +87,7 @@ const RootLayout = () => {
           options={{ title: 'Neurovývojová stimulace' }}
         />
         <Stack.Screen name="settings" options={{ title: 'Nastavení' }} />
+        <Stack.Screen name="journey" options={{ title: 'Vaše cesta' }} />
       </Stack>
     </>
   )

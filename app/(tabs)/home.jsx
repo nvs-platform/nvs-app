@@ -59,10 +59,12 @@ const getStyles = (palette) =>
       flex: 1,
     },
     container: {
+      // Fills the screen, so the day rows can stretch into the free space
+      flexGrow: 1,
       paddingHorizontal: spacing.screen,
-      paddingTop: spacing.lg,
+      paddingTop: spacing.md,
       paddingBottom: spacing.lg,
-      gap: spacing.md,
+      gap: spacing.lg,
     },
 
     todayCard: {

@@ -8,6 +8,8 @@ export const colors = {
     // Darker than the first #35AFCB, so white button text has enough contrast (4.6 : 1)
     primary: '#1E7F96',
     secondary: '#788A6D',
+    // Lighter sage for soft borders, e.g. today's row on Home
+    secondarySoft: '#B4C0AC',
     tertiary: '#E9B69A',
     background: '#FFFFFF',
     card: '#FFFDF8',
@@ -42,6 +44,7 @@ export const colors = {
   dark: {
     primary: '#5BC3DB',
     secondary: '#9BAD8F',
+    secondarySoft: '#5F6E57',
     tertiary: '#D9A488',
     background: '#1C1F1D',
     card: '#262A27',
