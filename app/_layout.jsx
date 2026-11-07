@@ -7,6 +7,7 @@ import {
   useFonts,
   NunitoSans_400Regular,
   NunitoSans_700Bold,
+  NunitoSans_800ExtraBold,
 } from '@expo-google-fonts/nunito-sans'
 
 const RootLayout = () => {
@@ -15,6 +16,8 @@ const RootLayout = () => {
   const [loaded, error] = useFonts({
     NunitoSans_400Regular,
     NunitoSans_700Bold,
+    // Only for the big title on the „Hotovo" screen
+    NunitoSans_800ExtraBold,
   })
 
   // Wait until the fonts are loaded, so the text doesn't start in the system font
@@ -62,7 +65,7 @@ const RootLayout = () => {
         <Stack.Screen name="notes/[date]" options={{ title: 'Poznámka' }} />
 
         <Stack.Screen name="workout" options={{ headerShown: false }} />
-        {/* The big „Hotovo" on the page is enough; the way on is the „Dále" button */}
+        {/* The big title on the page is enough; the way on is the „Hotovo" button */}
         <Stack.Screen name="done" options={{ headerShown: false }} />
         <Stack.Screen
           name="library/index"

@@ -23,6 +23,20 @@ export const colors = {
     glass: 'rgba(255,255,255,0.7)',
     glassBorder: 'rgba(48,63,73,0.12)',
     track: 'rgba(48,63,73,0.18)',
+    // Celebration on the „Hotovo" screen only (components/celebration/).
+    // Light circles as in the mockup; the big icon with a thick outline keeps its shape
+    // readable, though white on yellow/apricot is under 3 : 1 (it is only decoration).
+    celebrationSun: '#F2B84B',
+    celebrationSunRays: '#FCEFD2',
+    celebrationStar: '#E9B69A',
+    celebrationStarRays: '#FBEDE4',
+    celebrationBalloon: '#E58D63',
+    celebrationBalloonRays: '#FBE6DA',
+    celebrationRocket: '#1E7F96',
+    celebrationRocketRays: '#DDF0F4',
+    celebrationPaw: '#E9B69A',
+    celebrationPawRays: '#FBEDE4',
+    celebrationIcon: '#FFFFFF',
   },
   dark: {
     primary: '#5BC3DB',
@@ -42,6 +56,17 @@ export const colors = {
     glass: 'rgba(28,31,29,0.85)',
     glassBorder: 'rgba(255,255,255,0.15)',
     track: 'rgba(237,234,227,0.18)',
+    celebrationSun: '#F2B84B',
+    celebrationSunRays: 'rgba(242,184,75,0.18)',
+    celebrationStar: '#E9B69A',
+    celebrationStarRays: 'rgba(217,164,136,0.18)',
+    celebrationBalloon: '#E58D63',
+    celebrationBalloonRays: 'rgba(229,141,99,0.18)',
+    celebrationRocket: '#1E7F96',
+    celebrationRocketRays: 'rgba(91,195,219,0.18)',
+    celebrationPaw: '#E9B69A',
+    celebrationPawRays: 'rgba(217,164,136,0.18)',
+    celebrationIcon: '#FFFFFF',
   },
 }
 

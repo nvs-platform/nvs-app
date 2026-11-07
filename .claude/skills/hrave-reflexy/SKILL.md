@@ -64,7 +64,7 @@ radius } from '../constants/theme'`) and reference values by semantic name
   (`colors.primary`, `colors.card`, `spacing.lg`, `radius.pill`). Don't put raw hex values
   in new code. Older screens still have hardcoded hex values; leave them unless the user
   asks for a cleanup.
-- Nunito Sans is loaded in `app/_layout.jsx`, but **only the 400 and 700 weights**. Use
+- Nunito Sans is loaded in `app/_layout.jsx`, but **only the 400 and 700 weights** (plus 800, used only for the big „Hotovo" title). Use
   `fonts.regular` and `fonts.bold`. The `typography` tokens that use medium, semiBold or
   extraBold fall back to the system font until those weights are added to `useFonts`.
 - Extract shared components (`components/PrimaryButton.jsx`, `Card`, `Chip`,
@@ -110,7 +110,10 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
     `color: palette.onPrimary` in its style, which overrides the default.
   - `ThemedLogo` for the logo (light or dark image); give it a size via `style`.
   - `Spacer` (`height`, default 40) for vertical gaps where the user uses it (the welcome
-    screen). Don't add a `margin` on top of a `Spacer` for the same gap.
+    screen). Don't add a `margin` on top of a `Spacer` for the same gap. With `flex` (and
+    an optional `minHeight`) it is a flexible gap that shares the free room: `done.jsx`
+    places the celebration and the button with `Spacer flex` 4 : 1 : 2, so the layout looks
+    the same on small and big phones. Prefer this to large fixed paddings.
   - `ThemedCard` (`palette.card`, `radius.card`, `spacing.lg` padding) for large cards. The
     small library tiles don't use it: they have their own radius and border and one is a
     `Pressable`.
@@ -171,7 +174,8 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
 - **Every new screen needs a way in.** After creating one, ask where its link or button
   should go (usually the menu on `home`).
 - **Current flow:** `index` (welcome, „Pokračovat") → `home` („Dnes" menu) → `workout`
-  („Dále") → `done` („Hotovo", „Dále") → `calendar`.
+  (after the last video) → `done` (celebration, „Hotovo" button with `dismissTo`) →
+  `calendar`.
 
 ## Workflow for a feature or screen
 

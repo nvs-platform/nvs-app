@@ -151,10 +151,15 @@ one of 12 series. There is no big progress dashboard.
   **not reset the video position**.
 - **Rest state** „Chvilka odpočinku": large calm countdown (for example 00:20), a breathing
   cue, „Odpočiňte si, než budete pokračovat.", „Pokračovat", „Přeskočit odpočinek".
-- **Completion** „Máte hotovo!": „Děkujeme za společný čas. Dnešní cvičení je dokončeno.",
-  „Dokončeno: 4 cviky" and „Hotovo". No „Přidat poznámku" here: this screen is for the
-  child; notes are added from „Poznámky" and „Kalendář". It may use a subtle
-  animation of softly expanding shapes. Afterwards the calendar shows today recorded.
+- **Completion** („Hotovo" screen): a short, cheerful celebration, the moment when the
+  child hands the exercise back to the parent. A short animation plays once (about 3 s:
+  soft turning rays, a confetti burst, a circle with an icon that moves) and one big title
+  appears („Hurá!"), then the button. No subtitle, no numbers, no streaks and no
+  collecting; the guide girl says goodbye in the video, so there is no mascot here. For
+  now there are five (sun, star, balloon, rocket, paw), picked at random; more celebrations and
+  a melody may come later (see [CELEBRATION_PLAN.md](CELEBRATION_PLAN.md)). No „Přidat poznámku" here: this screen is
+  for the child; notes are added from „Poznámky" and „Kalendář". Afterwards the calendar
+  shows today recorded.
 
 ### Calendar — „Kalendář"
 
