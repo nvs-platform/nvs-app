@@ -25,7 +25,7 @@ const WelcomeScreen = () => {
       </ThemedText>
       <Spacer height={32} />
 
-      <Link href="/home" asChild>
+      <Link href="/home" replace asChild>
         <ThemedButton title="Pokračovat" style={styles.button} />
       </Link>
     </ThemedView>

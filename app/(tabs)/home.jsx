@@ -1,22 +1,37 @@
-import { StyleSheet } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import { Link } from 'expo-router'
-import { useColors, typography, spacing } from '../../constants/theme'
+import { useColors, typography, spacing, radius } from '../../constants/theme'
 
 //themed components
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedCard from '../../components/ThemedCard'
-import { Play } from 'lucide-react-native'
+import { CalendarPlus, Play } from 'lucide-react-native'
 
 const HomeScreen = () => {
-  const styles = getStyles(useColors())
+  const palette = useColors()
+  const styles = getStyles(palette)
+
   return (
     <ThemedView style={styles.container}>
       <ThemedCard style={styles.todayCard}>
-        <ThemedText style={styles.todayTitle} title={true}>
-          Dnes
-        </ThemedText>
+        <View style={styles.todayHeader}>
+          <ThemedText style={styles.todayTitle} title={true}>
+            Dnes
+          </ThemedText>
+
+          <Pressable
+            style={styles.recordButton}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityState={{ disabled: true }}
+            accessibilityLabel="Zaznamenat cvičení"
+          >
+            <CalendarPlus size={20} color={palette.text} strokeWidth={2} />
+          </Pressable>
+        </View>
+
         <ThemedText style={styles.todayDay}>3. den z cyklu</ThemedText>
 
         <Link href="/workout" asChild>
@@ -45,5 +60,20 @@ const getStyles = (palette) =>
     todayDay: {
       ...typography.bodyMd,
       marginBottom: spacing.md,
+    },
+    todayHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    recordButton: {
+      width: 36,
+      height: 36,
+      borderRadius: radius.pill,
+      backgroundColor: palette.mutedSurface,
+      borderWidth: 1,
+      borderColor: palette.secondary,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   })
