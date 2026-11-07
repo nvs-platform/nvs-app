@@ -21,6 +21,8 @@ section 5 are a starting point that can change during implementation.
   to be the real name) **and an avatar picture**, nothing else. They are built in
   phase 2; phase 1 only prepares for them (avatar placeholder, records that can later be
   assigned to a profile).
+  When creating a profile, the parent **picks the avatar from a set of animal avatars**
+  (idea from 2026-11-07). Phase 1 uses the cat from that set as the header placeholder.
 - **Feel:** trustworthy and clear for adults, friendly and safe for small children.
   It should feel like a quality tool for parents, **not a game for toddlers**. Exercise is
   framed as a calm daily ritual, not as therapy.
@@ -124,6 +126,17 @@ and „Hotovo", not Home. Top to bottom:
   - current day: green with a border, with „dnes"
   - upcoming: soft pink, plain label, still readable (never looks disabled; no
     „Plánováno", which would suggest a schedule)
+- **After exercising:** when the parent finishes the day (reaches „Hotovo") or records it
+  manually, the date is saved to „Kalendář" and, on Home, that day's row turns grey
+  („odcvičeno"). Both come from the same exercise record, so they always match.
+- **„Dnes" card when today is already exercised:** the app doesn't jump to the next day on
+  its own. The card shows a calm line instead of „Cvičíme dnes", for example „Dnes máte
+  hotovo. Další den série na vás počká." (no „zítra", which would suggest exercising every
+  day). The calendar-plus icon stays. The next day becomes the current one on a later date.
+- **Testing reset (development only):** while the app is being built, the tab header has a
+  restart icon that clears the records of the current series, so the cycle can be run
+  through again and again. It is shown only in development builds (`__DEV__`) and never
+  reaches parents.
 - A day left in the middle is not completed; next time it starts again from the first
   exercise (the player lets the parent skip exercises).
 - One icon never has two meanings across the app: the pencil means notes, the plus means
@@ -352,5 +365,20 @@ are placeholders from Pexels (author Ivan S) and will be replaced.
   exercise and can be added (also backdated) from „Kalendář", and the tab button currently
   allows a note for today even without an exercise. The pencil marker in the month grid is
   postponed (it needs a custom day component).
+- **Next tasks** (agreed 2026-11-07, each one on its own):
+  - **Lock today after „Hotovo".** Once today is exercised, Home shouldn't offer
+    „Cvičíme dnes" again. Open: a calm message instead of the button (suggested, for
+    example „Dnes máte odcvičeno. Další cvičení vás čeká zítra.") or a disabled button;
+    whether single videos in the exercise library stay playable; an unfinished workout
+    (back arrow in the player) doesn't lock the day.
+  - **No way back to the welcome screen.** `app/index.jsx` pushes `/home`, so the welcome
+    screen stays at the bottom of the history and Android's back button returns to it.
+    Leave it with `dismissTo` or `replace`, like „Hotovo" does.
+  - **Build the new Home** from the design in section 5 and [DESIGN.md](DESIGN.md).
+- **Avatar from a photo (idea, phase 2).** It would be nice if the parent could also take a
+  photo for the profile instead of picking an animal. Open: this goes against the „No data
+  about children" rule in section 1 (no photo). If it is ever allowed, it needs a decision
+  on whose photo it is, keeping it only on the device (never uploaded) and the parent's
+  consent.
 - Phase 2: backend, auth provider, video hosting, and what gamification will look like. It has to fit the
   calm tone of the app.

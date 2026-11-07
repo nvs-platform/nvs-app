@@ -107,8 +107,9 @@ the back arrow on detail screens, and the headerless exercise player.
 - **Bottom tab bar** as the main navigation (Domů · Kalendář · Poznámky · Průvodce ·
   Profil). The exercise library is not a tab; it opens from „Průvodce".
 - **Top-level screens** (the tabs) have no back arrow. The header has the **avatar on the
-  left** and a three-dots icon on the right that opens Nastavení (a soft grey circle with a dark outline heart icon; not primary, so it doesn't
-  compete with the main button). The avatar is for **switching
+  left** and a three-dots icon on the right that opens Nastavení. The avatar is the cat from the animal avatar set
+  (`assets/img/avatar-cat.svg`, 36 px, shown with `expo-image`): an amber circle with a thin
+  amber ring, so it doesn't fade into the white header (agreed 2026-11-07). The avatar is for **switching
   between child profiles** (one parent, several children), not a way to Nastavení. In phase 1 it is only a placeholder
   with no action. A large title or a short greeting fits here.
 - **Detail screens** (exercise detail, one note, a guide chapter) get the standard back
@@ -162,7 +163,7 @@ the back arrow on detail screens, and the headerless exercise player.
   filled variants. Pass the icon as a component (`icon={Plus}` on `ThemedButton`).
   - Tab bar: `House`, `CalendarDays`, `NotebookPen`, `Compass`, `CircleUser`. The active tab
     is shown by color (primary) and a stroke of 2.5 instead of 2.
-  - Header: `Heart` (avatar), `Ellipsis` (Nastavení).
+  - Header: `Ellipsis` (Nastavení). The avatar is an SVG file, not a Lucide icon.
   - Buttons and cards: `Plus`, `Play`, `Trash2`, `Pencil` (notes only), `CalendarPlus`
     (manual record).
   - Player: `ChevronLeft`, `RotateCcw`, `Play` / `Pause` and `SkipForward`; play, pause
