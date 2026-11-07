@@ -101,20 +101,35 @@ Not built in phase 1. In phase 1 the app opens straight to Home. A short welcome
 
 ### Home — „Domů"
 
-- Header with the avatar on the left. The avatar is for switching between child profiles;
-  in phase 1 it is only a placeholder. See „Navigation and headers" in [DESIGN.md](DESIGN.md).
-- Heading „Dnes" with a short warm sentence (for example „3. den z cyklu").
-- Prominent primary button **„Cvičíme dnes"** with a play icon. This is the main action.
-- The „Dnes" card holds only the heading, the day („3. den z cyklu") and „Cvičíme dnes".
-  There is no manual-record shortcut on Home: manual records live in „Kalendář". It's
-  easier to add a shortcut later if parents look for it than to take one away.
+Agreed with the user on 2026-11-07. Home is the **parent's** screen: at a glance it shows
+what we exercise today and where we are in the program. The child's moments are the player
+and „Hotovo", not Home. Top to bottom:
+
+- **Header:** avatar on the left (switching between child profiles; in phase 1 only a
+  placeholder, see „Navigation and headers" in [DESIGN.md](DESIGN.md)), a short greeting in
+  the middle and the three dots on the right. The greeting changes (by time of day and
+  picked at random from a few sentences, for example „Dobré odpoledne"), so the app feels a
+  little different each time.
+- **„Dnes" card** (first on the screen): heading „Dnes", the line „Série 1 · 3. den · asi 5
+  minut" and the wide primary button **„Cvičíme dnes"** with a play icon. This is the main
+  action. On the right, level with the heading, a small **calendar-plus icon** opens the
+  manual record („Zaznamenat cvičení"). Home and „Kalendář" are the two ways into it.
+- **„Série 1" card** below it: the heading „Série 1" and, on the right, a link
+  **„Vaše cesta ›"** to an overview of all 12 series (not designed yet). Home shows only the
+  current series, so the 12 series don't feel like a long road.
+- Inside the series card, **7 slim rows**, one per day („1. den" … „7. den"). No pictures:
+  every day of a series is the same set of 4 exercises. Tapping a row does nothing; the
+  list is only an overview. Three states:
+  - completed: grey, with „odcvičeno"
+  - current day: green with a border, with „dnes"
+  - upcoming: soft pink, plain label, still readable (never looks disabled; no
+    „Plánováno", which would suggest a schedule)
+- A day left in the middle is not completed; next time it starts again from the first
+  exercise (the player lets the parent skip exercises).
 - One icon never has two meanings across the app: the pencil means notes, the plus means
-  "add something".
-- A list of **7 day cards** („1. den" … „7. den"). Each card has a thumbnail, the day label
-  and a status. There are three visual states:
-  - completed: soft green, no checkmark
-  - current day: warm cream or apricot accent
-  - upcoming: neutral beige, still readable
+  "add something". That's why the manual record uses the calendar-plus icon, not a pencil.
+- Later: what happens after the 7th day (a short celebration for the child, then the next
+  series loads) and the „Vaše cesta" screen.
 - **Menu:** a **bottom tab bar** with 5 tabs: **Domů · Kalendář · Poznámky · Průvodce ·
   Profil**. The exercise library is not a tab; it opens from „Průvodce". The tab bar is for
   switching screens only; actions like „Cvičíme dnes" stay on the screen.
@@ -173,8 +188,8 @@ one of 12 series. There is no big progress dashboard.
   if the day has one, the note card (full text, pencil, tap to edit).
 - „+ Přidat poznámku" button, only on exercised days without a note: a note belongs to an
   exercise.
-- „Zaznamenat cvičení" button (secondary style) that opens the manual record. This is the
-  only way into it.
+- „Zaznamenat cvičení" button (secondary style) that opens the manual record. The other way
+  into it is the calendar-plus icon in the „Dnes" card on Home.
 
 ### Manual record — „Zaznamenat cvičení"
 
@@ -326,8 +341,10 @@ are placeholders from Pexels (author Ivan S) and will be replaced.
   „Cvičení a deník reflexů", is just a copy of the welcome screen.
 - Some Stitch screens have leftover English or unaccented labels („Auth Login",
   „Exercise Calendar", „Zaznam Cviceni").
-- Home vs. Series detail: the series detail was a concept. It is not decided whether it
-  replaces the 7-day list on Home.
+- Series detail: Home now shows the current series itself (7 slim rows), so the separate
+  series detail is probably not needed. „Vaše cesta" (all 12 series) is still to design.
+- Colors on Home: green means „today" there, while in „Kalendář" the same soft green
+  means „exercised". Chosen on purpose; revisit if parents find it confusing.
 - Bundled videos increase the app size. See the limits in section 7 and check them once
   the real videos exist.
 - Sound in exercise videos (none, music or voice instructions) is not decided.

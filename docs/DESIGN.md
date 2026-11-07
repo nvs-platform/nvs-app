@@ -124,9 +124,18 @@ the back arrow on detail screens, and the headerless exercise player.
   rest moments.
 - **Chips:** pill shape, 36 px tall, icon plus label. Inactive chips are beige; active
   chips are sage with white text.
-- **Routine and day card:** card fill, 48 px radius, 24 px padding, hairline border,
-  thumbnail in a soft rounded mask. States are completed (soft green), current
-  (cream/apricot accent) and upcoming (neutral beige, never shown as disabled).
+- **Home „Dnes" card:** card fill, 32 px radius, `lg` padding. Heading „Dnes" with a
+  calendar-plus icon on the right (Lucide `CalendarPlus`, `text` color, in a 36 px muted
+  surface circle with a hairline border; touch area at least 44 px; accessibility label
+  „Zaznamenat cvičení"), then the day line in body text, then the full-width primary
+  button „Cvičíme dnes". It stays the strongest element on Home.
+- **Home series card:** white (background color, not tinted, so it doesn't blend with the
+  rows), 32 px radius, hairline border. Heading „Série 1" with a primary-colored text link
+  „Vaše cesta ›" on the right. Below, 7 slim day rows (about 32 px tall, 16 px radius,
+  4 px apart, no thumbnails): completed = grey with „odcvičeno" in muted text, current =
+  green with a 1.5 px darker green border and „dnes", upcoming = soft pink with dark text.
+  Upcoming rows are never shown as disabled. The pink is a new color: add it to
+  `constants/theme.js` as a token like the others.
 - **Note card** (`components/NoteCard.jsx`, used in „Poznámky" and „Kalendář"): card fill,
   32 px radius, a 1 px `textAlt` border (darker than hairline on purpose, so the notes
   stand out from the white page), title on the left and an outline pencil on the right,
@@ -149,7 +158,8 @@ the back arrow on detail screens, and the headerless exercise player.
   - Tab bar: `House`, `CalendarDays`, `NotebookPen`, `Compass`, `CircleUser`. The active tab
     is shown by color (primary) and a stroke of 2.5 instead of 2.
   - Header: `Heart` (avatar), `Ellipsis` (Nastavení).
-  - Buttons and cards: `Plus`, `Play`, `Trash2`, `Pencil`.
+  - Buttons and cards: `Plus`, `Play`, `Trash2`, `Pencil` (notes only), `CalendarPlus`
+    (manual record).
   - Player: `ChevronLeft`, `RotateCcw`, `Play` / `Pause` and `SkipForward`; play, pause
     and skip are filled (`fill` = the icon color) so they read as media buttons.
   - Good fits for later: `Leaf`, `Lightbulb` (parent tips), `Sprout` (progress), `Timer`
