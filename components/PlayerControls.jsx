@@ -51,7 +51,7 @@ const PlayerControls = ({
 
       <View style={styles.controlsRow}>
         <Pressable
-          style={styles.button}
+          style={({ pressed }) => [styles.button, pressed && styles.pressed]}
           onPress={onRestart}
           accessibilityLabel="Znovu od začátku"
         >
@@ -59,7 +59,11 @@ const PlayerControls = ({
         </Pressable>
 
         <Pressable
-          style={[styles.button, styles.playButton]}
+          style={({ pressed }) => [
+            styles.button,
+            styles.playButton,
+            pressed && styles.pressed,
+          ]}
           onPress={onTogglePlay}
           accessibilityLabel={isPlaying ? 'Pozastavit' : 'Přehrát'}
         >
@@ -81,7 +85,7 @@ const PlayerControls = ({
         </Pressable>
 
         <Pressable
-          style={styles.button}
+          style={({ pressed }) => [styles.button, pressed && styles.pressed]}
           onPress={onNext}
           accessibilityLabel="Další cvik"
         >
@@ -151,5 +155,8 @@ const getStyles = (palette) =>
       width: 60,
       height: 60,
       backgroundColor: palette.primary,
+    },
+    pressed: {
+      opacity: 0.7,
     },
   })

@@ -8,7 +8,7 @@ import { Link, useFocusEffect } from 'expo-router'
 //themed components
 import ThemedView from '../../components/ThemedView'
 import Spacer from '../../components/Spacer'
-import { useColors } from '../../constants/theme'
+import { useColors, fonts, spacing, typography } from '../../constants/theme'
 import ThemedText from '../../components/ThemedText'
 import ThemedCard from '../../components/ThemedCard'
 import ThemedButton from '../../components/ThemedButton'
@@ -162,19 +162,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
     paddingBottom: 24,
   },
   dayDate: {
     fontSize: 15,
   },
   dayStatus: {
-    fontFamily: 'NunitoSans_700Bold',
+    fontFamily: fonts.bold,
     fontSize: 19,
+    lineHeight: 26,
   },
   title: {
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 26,
+    ...typography.headlineLg,
     alignSelf: 'flex-start',
   },
 })

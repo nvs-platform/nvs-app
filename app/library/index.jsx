@@ -1,7 +1,13 @@
 import { StyleSheet, View, Pressable } from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router'
-import { useColors, fonts, spacing, radius } from '../../constants/theme'
+import { router } from 'expo-router'
+import {
+  useColors,
+  fonts,
+  spacing,
+  radius,
+  typography,
+} from '../../constants/theme'
 
 //themed components
 import ThemedView from '../../components/ThemedView'
@@ -16,14 +22,15 @@ const LibraryScreen = () => {
       </ThemedText>
 
       <View style={styles.grid}>
-        <Link href="/library/starfish" asChild>
-          <Pressable style={styles.card}>
-            <View style={styles.thumbnail} />
-            <ThemedText style={styles.cardTitle} title={true}>
-              Hvězdice
-            </ThemedText>
-          </Pressable>
-        </Link>
+        <Pressable
+          onPress={() => router.push('/library/starfish')}
+          style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+        >
+          <View style={styles.thumbnail} />
+          <ThemedText style={styles.cardTitle} title={true}>
+            Hvězdice
+          </ThemedText>
+        </Pressable>
 
         <View style={styles.card}>
           <View style={styles.thumbnail} />
@@ -50,11 +57,10 @@ const getStyles = (palette) =>
     container: {
       flex: 1,
       justifyContent: 'center',
-      paddingHorizontal: 20,
+      paddingHorizontal: spacing.screen,
     },
     title: {
-      fontFamily: 'NunitoSans_700Bold',
-      fontSize: 26,
+      ...typography.headlineLg,
       alignSelf: 'flex-start',
     },
     grid: {
@@ -79,7 +85,11 @@ const getStyles = (palette) =>
     cardTitle: {
       fontFamily: fonts.bold,
       fontSize: 13,
+      lineHeight: 18,
       textAlign: 'center',
       marginTop: spacing.xs,
+    },
+    pressed: {
+      opacity: 0.7,
     },
   })

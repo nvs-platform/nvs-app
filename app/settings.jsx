@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { spacing, typography } from '../constants/theme'
 import React from 'react'
 
 //themed components
@@ -20,11 +21,10 @@ export default SettingsScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
   },
   title: {
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 26,
+    ...typography.headlineLg,
     alignSelf: 'flex-start',
   },
 })

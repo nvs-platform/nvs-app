@@ -1,4 +1,5 @@
 import { FlatList, StyleSheet } from 'react-native'
+import { spacing, typography } from '../../constants/theme'
 import { useCallback, useState } from 'react'
 import { useFocusEffect, Link } from 'expo-router'
 import { format, parseISO } from 'date-fns'
@@ -72,11 +73,11 @@ export default NotesScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
+    paddingTop: spacing.xl,
   },
   title: {
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 26,
+    ...typography.headlineLg,
     alignSelf: 'flex-start',
   },
   card: {

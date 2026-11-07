@@ -1,6 +1,6 @@
 import { StyleSheet, View, ScrollView, useWindowDimensions } from 'react-native'
 import React from 'react'
-import { useColors, fonts, spacing } from '../../constants/theme'
+import { useColors, fonts, spacing, typography } from '../../constants/theme'
 
 //themed components
 import ThemedText from '../../components/ThemedText'
@@ -58,21 +58,20 @@ const getStyles = (palette) =>
       backgroundColor: palette.mutedSurface,
     },
     content: {
-      paddingHorizontal: 20,
+      paddingHorizontal: spacing.screen,
       paddingVertical: spacing.lg,
     },
     title: {
-      fontFamily: fonts.bold,
-      fontSize: 26,
+      ...typography.headlineLg,
     },
     subtitle: {
       fontFamily: fonts.bold,
       fontSize: 19,
+      lineHeight: 26,
       marginTop: spacing.xs,
     },
     text: {
-      fontFamily: fonts.regular,
-      fontSize: 17,
+      ...typography.bodyLg,
       marginTop: spacing.xs,
       marginBottom: spacing.md,
     },

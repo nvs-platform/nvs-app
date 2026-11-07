@@ -33,7 +33,7 @@ const getStyles = (palette) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingHorizontal: 20,
+      paddingHorizontal: spacing.screen,
       paddingTop: spacing.lg,
     },
     todayCard: {

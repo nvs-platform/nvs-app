@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { spacing, typography } from '../constants/theme'
 import { Link } from 'expo-router'
 
 //themed components
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
   },
   logo: {
     width: 280,
@@ -46,13 +47,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 26,
+    ...typography.headlineLg,
     textAlign: 'center',
   },
   subtitle: {
-    fontFamily: 'NunitoSans_400Regular',
-    fontSize: 17,
+    ...typography.bodyLg,
     textAlign: 'center',
   },
   button: {

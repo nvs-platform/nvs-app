@@ -113,6 +113,7 @@ export const spacing = {
   lg: 24,
   xl: 32,
   '2xl': 48,
+  screen: 20,
 }
 
 export const radius = {

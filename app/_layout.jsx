@@ -1,12 +1,14 @@
-import { Link, Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { Ellipsis } from 'lucide-react-native'
 import { Image } from 'expo-image'
-import { useColors } from '../constants/theme'
+import { useColors, fonts } from '../constants/theme'
 import {
   useFonts,
   NunitoSans_400Regular,
+  NunitoSans_500Medium,
+  NunitoSans_600SemiBold,
   NunitoSans_700Bold,
   NunitoSans_800ExtraBold,
 } from '@expo-google-fonts/nunito-sans'
@@ -16,6 +18,8 @@ const RootLayout = () => {
   const styles = getStyles(palette)
   const [loaded, error] = useFonts({
     NunitoSans_400Regular,
+    NunitoSans_500Medium,
+    NunitoSans_600SemiBold,
     NunitoSans_700Bold,
     // Only for the big title on the „Hotovo" screen
     NunitoSans_800ExtraBold,
@@ -37,7 +41,7 @@ const RootLayout = () => {
           // Soft system shadow under the header, so it stands out from the white page
           headerShadowVisible: true,
           headerTintColor: palette.text,
-          headerTitleStyle: { fontFamily: 'NunitoSans_700Bold' },
+          headerTitleStyle: { fontFamily: fonts.bold },
         }}
       >
         {/* The welcome screen has no header */}
@@ -57,11 +61,13 @@ const RootLayout = () => {
 
             // Icon in the right corner opens the settings
             headerRight: () => (
-              <Link href="/settings" asChild>
-                <Pressable accessibilityLabel="Nastavení">
-                  <Ellipsis size={24} color={palette.text} strokeWidth={2} />
-                </Pressable>
-              </Link>
+              <Pressable
+                onPress={() => router.push('/settings')}
+                accessibilityLabel="Nastavení"
+                style={({ pressed }) => [pressed && styles.pressed]}
+              >
+                <Ellipsis size={24} color={palette.text} strokeWidth={2} />
+              </Pressable>
             ),
           }}
         />
@@ -90,9 +96,12 @@ export default RootLayout
 
 const getStyles = (palette) =>
   StyleSheet.create({
-   avatar: {
+    avatar: {
       width: 36,
       height: 36,
       marginRight: 12,
+    },
+    pressed: {
+      opacity: 0.7,
     },
   })

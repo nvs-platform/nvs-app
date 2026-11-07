@@ -73,7 +73,12 @@ Whatever palette wins, the colors must keep good contrast (body text at least WC
 ## Spacing and layout
 
 - Base rhythm of 8 px. Tokens: 2xs 4, xs 8, sm 12, md 16, lg 24, xl 32, 2xl 48.
-- Screen side margin is 20 px on phones and 32 px on tablets. Gutter is 16 px on phones
+- Screen side margin is 20 px on phones (token `spacing.screen`) and 32 px on tablets.
+- Tab screens whose content starts with a page title (Poznámky, Průvodce, Profil) have
+  32 px (`xl`) above the title, so it doesn't sit on the header. Domů and Kalendář are
+  laid out differently and keep 24 px.
+- Everything pressable dims to 70 % opacity while the finger is down (buttons scale
+  instead, see below). Gutter is 16 px on phones
   and 24 px on tablets.
 - Around illustrations and step instructions, lean toward `xl` (32 px).
 - Touch targets are large. The primary button is at least 56 px tall.

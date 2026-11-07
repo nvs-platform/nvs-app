@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { Link } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useColors } from '../constants/theme'
+import { useColors, spacing } from '../constants/theme'
 
 //themed components
 import ThemedView from '../components/ThemedView'
@@ -80,7 +80,7 @@ export default DoneScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
   },
   button: {
     width: 220,

@@ -12,14 +12,7 @@ import ThemedView from '../components/ThemedView'
 import PlayerControls from '../components/PlayerControls'
 import useExercisePlayer from '../hooks/useExercisePlayer'
 
-// Today's exercise videos, played in this order
-const videos = [
-  require('../assets/videos/greeting-01.mp4'),
-  require('../assets/videos/rocking-ball-02.mp4'),
-  require('../assets/videos/side-bend-01.mp4'),
-  require('../assets/videos/reach-up-01.mp4'),
-  require('../assets/videos/goodbye-01.mp4'),
-]
+import { workoutVideos } from '../data/workoutVideos'
 
 const WorkoutScreen = () => {
   const colors = useColors()
@@ -40,7 +33,7 @@ const WorkoutScreen = () => {
     restart,
     togglePlay,
     goNext,
-  } = useExercisePlayer(videos, () => router.replace('/done'))
+  } = useExercisePlayer(workoutVideos, () => router.replace('/done'))
 
   return (
     <ThemedView style={styles.container}>
@@ -71,7 +64,10 @@ const WorkoutScreen = () => {
             tint="light"
           >
             <Pressable
-              style={styles.backPress}
+              style={({ pressed }) => [
+                styles.backPress,
+                pressed && styles.pressed,
+              ]}
               onPress={() => router.back()}
               accessibilityLabel="Zpět"
             >
@@ -84,7 +80,7 @@ const WorkoutScreen = () => {
       {controlsVisible && (
         <PlayerControls
           blurTarget={blurTarget}
-          videoCount={videos.length}
+          videoCount={workoutVideos.length}
           index={index}
           progress={progress}
           isPlaying={isPlaying}
@@ -103,7 +99,7 @@ const getStyles = (palette) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingHorizontal: 20,
+      paddingHorizontal: spacing.screen,
     },
 
     topBar: {
@@ -131,5 +127,8 @@ const getStyles = (palette) =>
       bottom: 0,
       left: 0,
       right: 0,
+    },
+    pressed: {
+      opacity: 0.7,
     },
   })

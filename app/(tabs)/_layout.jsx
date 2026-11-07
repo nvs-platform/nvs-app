@@ -6,7 +6,7 @@ import {
   Compass,
   CircleUser,
 } from 'lucide-react-native'
-import { useColors } from '../../constants/theme'
+import { useColors, fonts } from '../../constants/theme'
 
 // Lucide has no filled icons, so the active tab gets a slightly thicker line
 // (its color comes from tabBarActiveTintColor)
@@ -28,7 +28,7 @@ const TabsLayout = () => {
         tabBarActiveTintColor: palette.primary,
         tabBarInactiveTintColor: palette.textAlt,
         // Small text under the icon
-        tabBarLabelStyle: { fontFamily: 'NunitoSans_400Regular', fontSize: 11 },
+        tabBarLabelStyle: { fontFamily: fonts.regular, fontSize: 11 },
       }}
     >
       <Tabs.Screen

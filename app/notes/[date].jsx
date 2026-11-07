@@ -113,12 +113,11 @@ const getStyles = (palette) =>
       flex: 1,
     },
     container: {
-      paddingHorizontal: 20,
+      paddingHorizontal: spacing.screen,
       paddingBottom: 24,
     },
     title: {
-      fontFamily: 'NunitoSans_700Bold',
-      fontSize: 26,
+      ...typography.headlineLg,
       alignSelf: 'flex-start',
     },
     input: {

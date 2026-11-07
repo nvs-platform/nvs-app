@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from 'react-native'
-import { Link } from 'expo-router'
+import { router } from 'expo-router'
 import { Pencil } from 'lucide-react-native'
 import { useColors } from '../constants/theme'
 import ThemedCard from './ThemedCard'
@@ -12,21 +12,22 @@ const NoteCard = ({ note, title, style, showFullText = false }) => {
   const palette = useColors()
 
   return (
-    <Link href={`/notes/${note.date}`} asChild>
-      <Pressable>
-        <ThemedCard
-          style={[styles.card, { borderColor: palette.textAlt }, style]}
-        >
-          <View style={styles.header}>
-            <ThemedText title={true}>{title}</ThemedText>
-            <Pencil size={20} color={palette.textAlt} strokeWidth={2} />
-          </View>
-          <ThemedText numberOfLines={showFullText ? undefined : 2}>
-            {note.text}
-          </ThemedText>
-        </ThemedCard>
-      </Pressable>
-    </Link>
+    <Pressable
+      onPress={() => router.push(`/notes/${note.date}`)}
+      style={({ pressed }) => [pressed && styles.pressed]}
+    >
+      <ThemedCard
+        style={[styles.card, { borderColor: palette.textAlt }, style]}
+      >
+        <View style={styles.header}>
+          <ThemedText title={true}>{title}</ThemedText>
+          <Pencil size={20} color={palette.textAlt} strokeWidth={2} />
+        </View>
+        <ThemedText numberOfLines={showFullText ? undefined : 2}>
+          {note.text}
+        </ThemedText>
+      </ThemedCard>
+    </Pressable>
   )
 }
 
@@ -40,5 +41,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  pressed: {
+    opacity: 0.7,
   },
 })

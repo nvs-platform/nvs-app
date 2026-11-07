@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { spacing, typography } from '../../constants/theme'
 import { Link } from 'expo-router'
 
 //themed components
@@ -34,12 +35,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
+    paddingTop: spacing.xl,
     gap: 15,
   },
   title: {
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 26,
+    ...typography.headlineLg,
     alignSelf: 'flex-start',
   },
   button: {

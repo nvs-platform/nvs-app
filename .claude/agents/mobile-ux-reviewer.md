@@ -26,7 +26,35 @@ For visual consistency, also skim the other screens in `app/` and the shared com
 `components/` (especially `ThemedButton`, `ThemedCard`, `ThemedText`), so you can compare
 the reviewed screen with the rest of the app, not judge it alone.
 
+Report problems you see on the reviewed screens even when they existed before the change.
+Even if the caller asks you to focus on what the change broke, list older problems
+briefly in a separate „Už dřív" group, so they don't slip through.
+
 Do not edit files. Do not run the dev server. You may run read-only commands (git, grep).
+
+## Looking at the running app (when possible)
+
+Reading code misses things that are obvious on screen (a title stuck to the header, a
+pressed state that never shows). So run `adb devices` first:
+
+- **No device listed:** review the code only, and say at the top of the report „Aplikace
+  neběžela, kontrola jen z kódu." Don't start the emulator or the dev server yourself.
+- **A device is listed** (the emulator or a phone with the app open in Expo Go): also
+  look at the screens.
+  - Screenshot: `adb exec-out screencap -p > <scratchpad>/ux-<screen>.png`, then open the
+    PNG with Read. Use the scratchpad directory you were given, never the repo.
+  - Find what to tap: `adb shell uiautomator dump /sdcard/ui.xml` and
+    `adb exec-out cat /sdcard/ui.xml`; each element has `bounds="[x1,y1][x2,y2]"`, tap
+    its centre with `adb shell input tap X Y`. Go back with `adb shell input keyevent 4`.
+  - Pressed state: hold a tap with `adb shell input swipe X Y X Y 1500` and take the
+    screenshot while it is held (run both in one command, the screenshot ~0.5 s after the
+    swipe starts).
+  - **Only navigate.** Tap tabs, cards, back arrows and „…". Never tap anything that
+    saves, deletes or records (Uložit, Smazat, Hotovo, Přidat poznámku → Uložit), never
+    type text, and don't finish a workout: the device holds the user's test data.
+  - Look at every reviewed screen, and at the five tabs side by side for consistency
+    (title height, margins, header).
+  - Note in the report which findings you saw on screen and which come from the code.
 
 ## Checklist
 
@@ -55,7 +83,11 @@ because the bar is different.
    raw hex in new code, `ThemedText`/`ThemedView` used per the skill. Dark mode must not
    break (white-on-white, hardcoded backgrounds).
 8. **Feedback and states.** `Pressable` has a visible pressed state; loading, empty and
-   error states exist where data can be missing (no notes yet, no video file).
+   error states exist where data can be missing (no notes yet, no video file). A
+   `Pressable` directly inside `<Link … asChild>` loses a `style` function
+   (`({ pressed }) => …`): Link merges `style` as an object and drops the function, so the
+   pressed state never shows. That is 🔴; the fix is `onPress={() => router.push(…)}`
+   (see the skill). `ThemedButton` inside `Link asChild` is fine.
 9. **Accessibility.** Icon-only buttons have `accessibilityLabel` in Czech and an
    `accessibilityRole`. Meaning is not carried by color alone (e.g. done vs. skipped days).
 10. **Navigation clarity.** The user always knows where they are (title) and how to get
@@ -76,11 +108,17 @@ because the bar is different.
     screen; secondary actions look secondary (outline or text style), not like a second
     primary. Buttons of the same kind look the same everywhere (use `ThemedButton`, same
     height, radius and padding).
-14. **Text is easy to read.** Clear hierarchy: one page title (bold 26), then subtitles,
-    then body — no two levels that look almost the same. Only `fonts.regular` and
-    `fonts.bold` (other weights fall back to the system font). Line height around 1.4× for
-    body text, lines not too long, enough contrast, no light grey text on a light card.
-15. **Elements are well composed.** Consistent page padding (20) and spacing from the 8 px
+14. **Text is easy to read.** Clear hierarchy: one page title (`typography.headlineLg`,
+    bold 26/34), then subtitles, then body — no two levels that look almost the same.
+    Fonts and sizes come from `fonts` / `typography` tokens. `ThemedText` defaults to
+    `bodyMd` (15/22), so a `fontSize` above 15 without its own `lineHeight` (or a spread
+    `typography` token) clips the tops of letters and Czech diacritics on Android: 🔴.
+    Line height around 1.4× for body text, lines not too long, enough contrast, no light
+    grey text on a light card.
+15. **Elements are well composed.** The first content (usually the page title) doesn't sit
+    on the header: there is a top gap (`paddingTop` or a `Spacer`); tab screens should
+    start their titles at a consistent height (see DESIGN.md „Spacing and layout").
+    Consistent page padding (`spacing.screen`, 20) and spacing from the 8 px
     rhythm (`spacing` tokens, no random 13 or 30). Things that belong together are grouped
     and aligned to the same left edge; equal gaps between equal items. Radii from `radius`
     tokens and consistent per element type. Nothing crowded or floating without

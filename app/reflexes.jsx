@@ -1,6 +1,6 @@
 import { StyleSheet, View, ScrollView } from 'react-native'
 import React from 'react'
-import { useColors } from '../constants/theme'
+import { useColors, fonts, spacing, typography } from '../constants/theme'
 
 //themed components
 import ThemedText from '../components/ThemedText'
@@ -145,24 +145,23 @@ const getStyles = (palette) =>
       backgroundColor: palette.background,
     },
     container: {
-      paddingHorizontal: 20,
+      paddingHorizontal: spacing.screen,
       paddingVertical: 40,
     },
     title: {
-      fontFamily: 'NunitoSans_700Bold',
-      fontSize: 26,
+      ...typography.headlineLg,
       textAlign: 'center',
     },
     block: {
       marginTop: 8,
     },
     subtitle: {
-      fontFamily: 'NunitoSans_700Bold',
+      fontFamily: fonts.bold,
       fontSize: 19,
+      lineHeight: 26,
     },
     text: {
-      fontFamily: 'NunitoSans_400Regular',
-      fontSize: 17,
+      ...typography.bodyLg,
       marginTop: 8,
       marginBottom: 16,
     },

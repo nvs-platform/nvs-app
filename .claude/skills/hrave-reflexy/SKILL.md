@@ -64,9 +64,9 @@ radius } from '../constants/theme'`) and reference values by semantic name
   (`colors.primary`, `colors.card`, `spacing.lg`, `radius.pill`). Don't put raw hex values
   in new code. Older screens still have hardcoded hex values; leave them unless the user
   asks for a cleanup.
-- Nunito Sans is loaded in `app/_layout.jsx`, but **only the 400 and 700 weights** (plus 800, used only for the big „Hotovo" title). Use
-  `fonts.regular` and `fonts.bold`. The `typography` tokens that use medium, semiBold or
-  extraBold fall back to the system font until those weights are added to `useFonts`.
+- Nunito Sans is loaded in `app/_layout.jsx` in the 400, 500, 600 and 700 weights (plus
+  800, used only for the big „Hotovo" title), so every `fonts` and `typography` token
+  works. Write fonts as tokens (`fonts.bold`), never as a name like `'NunitoSans_700Bold'`.
 - Extract shared components (`components/PrimaryButton.jsx`, `Card`, `Chip`,
   `ParentTip` …) the second time a pattern repeats, not before.
 - Visual references and mockups, including the Stitch project, are **inspiration, not a
@@ -104,9 +104,10 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
 - **Themed components** in `components/` (the user made them; use them on every screen):
   - `ThemedView` instead of the root `View`; it sets `palette.background`. A long screen
     keeps its `ScrollView`.
-  - `ThemedText` instead of `Text`. It sets the text color: `title={true}` gives
-    `palette.text` (titles, subtitles, card titles), without it `palette.textAlt` (body
-    text). Don't repeat these colors in styles. Text on a primary button keeps
+  - `ThemedText` instead of `Text`. It sets the default size (`typography.bodyMd`, 15/22),
+    font and color: `title={true}` gives `fonts.bold` and `palette.text` (titles,
+    subtitles, card titles), without it `fonts.regular` and `palette.textAlt` (body
+    text). The screen's `style` comes last and wins. Don't repeat these colors in styles. Text on a primary button keeps
     `color: palette.onPrimary` in its style, which overrides the default.
   - `ThemedLogo` for the logo (light or dark image); give it a size via `style`.
   - `Spacer` (`height`, default 40) for vertical gaps where the user uses it (the welcome
@@ -144,7 +145,8 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
     returns values and actions and draws nothing), not into a smart component. The user
     chose this on 2026-11-02 for the player. A hook never calls `router` or
     `storage/records.js` itself: the screen passes in what should happen, as a callback
-    (`useExercisePlayer(videos, () => router.replace('/done'))`). The screen calls the
+    (`useExercisePlayer(workoutVideos, () => router.replace('/done'))`, with the video
+    list imported from `data/workoutVideos.js`). The screen calls the
     hook and passes its values to dumb components as props: data flows down, taps come
     back up through `on…` props.
   - The player is the example: `app/workout.jsx` (video, back arrow, which videos, where
@@ -152,8 +154,12 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
     skipping, auto-hide; returns `player`, `index`, `progress`, `isPlaying`,
     `controlsVisible`, `showControls`, `restart`, `togglePlay`, `goNext`) →
     `components/PlayerControls.jsx` (the glass capsule: segments and three buttons).
-- **Page title** is bold, 26 px, `ThemedText` with `title={true}`, aligned left
-  (`alignSelf: 'flex-start'`).
+- **Page title** is `ThemedText` with `title={true}` and the style
+  `{ ...typography.headlineLg, alignSelf: 'flex-start' }` (bold, 26/34, aligned left).
+  Use a whole `typography` token rather than a bare `fontSize`: `ThemedText` defaults to
+  `bodyMd` (line height 22), so a bigger `fontSize` without its `lineHeight` gets clipped
+  (Č, Ř, Ž on Android). If no token fits, set `lineHeight` together with `fontSize`.
+- **Screen container:** `paddingHorizontal: spacing.screen`.
 - **Colors:** get the palette with `useColors()` from `constants/theme.js` (light or dark,
   by the phone's setting) and build styles inside the component:
   `const styles = getStyles(useColors())` with `const getStyles = (palette) => StyleSheet.create({…})`.
@@ -161,9 +167,14 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
   use a plain `const styles = StyleSheet.create({…})` below the component.
 - **Going back:** the header back arrow (set up in `app/_layout.jsx`, on every detail screen
   outside the tabs) is the only way back. Don't add „Zpět" links to the page body.
-- **Buttons that navigate** are `<Link href=… asChild>` around a `Pressable`, so the button
-  keeps its own look. A card that opens something is `Link` → `Pressable` → `ThemedCard`
-  (a card alone can't be tapped).
+- **Buttons that navigate:** `ThemedButton` goes inside `<Link href=… asChild>`. A
+  `Pressable` with its own pressed style (a card, an icon) uses
+  `onPress={() => router.push(…)}` instead: `Link asChild` merges the child's `style` as an
+  object, so a style function (`({ pressed }) => …`) is silently dropped and the pressed
+  state never shows. A card that opens something is `Pressable` → `ThemedCard` (see
+  `NoteCard`).
+- **Pressed state:** a `Pressable` gets `style={({ pressed }) => [styles.x, pressed && styles.pressed]}`
+  with `pressed: { opacity: 0.7 }` in its styles. `ThemedButton` has its own (scale).
 - **Detail screens go in a folder** together with their list screen: `app/library/index.jsx` is the
   list and `app/library/starfish.jsx` is a detail at `/library/starfish`. When the list is a
   tab, the detail folder sits at the top level: `app/notes/[date].jsx` (outside `(tabs)`, so
@@ -194,7 +205,7 @@ behavior="padding"` around the `ScrollView`, and `keyboardShouldPersistTaps="han
    because a `StyleSheet.create` below the component can't see `palette`.
    - `SafeAreaView` from `react-native-safe-area-context`
    - `ScrollView` or `FlatList` for long content
-   - `Pressable` with a subtle pressed state
+   - `Pressable` with the pressed state (opacity 0.7, see above)
    - icons from `lucide-react-native` (outline, 2 px stroke; see „Icons" in
      `docs/DESIGN.md`), not `@expo/vector-icons`
    - new packages only via `npx expo install` (see `AGENTS.md`). `react-dom` is pinned to
@@ -240,7 +251,9 @@ finish something („udělal bys to"), do it and explain what changed.
   it the `NoteCard` with the full text, or „Přidat poznámku" — only on exercised days,
   because a note belongs to an exercise.
 - **Data:** `storage/records.js` (`getExercisedDates`, `addExercisedDate`, `getNotes`,
-  `saveNote`, `deleteNote`, AsyncStorage); `done.jsx` saves today on open; the calendar
+  `saveNote`, `deleteNote`, AsyncStorage); `done.jsx` saves today on open (to be moved:
+  after the workout the parent should land on the calendar, where an animation marks the
+  day; decided 2026-11-07, built together with the calendar); the calendar
   loads days and notes in one `useFocusEffect` (`loadRecords`).
 
 **Notes (built):** one note per day `{ date, text }`, so the date is the id and
@@ -253,8 +266,10 @@ deletes after an `Alert` confirm. Notes are a calm look back after exercising (i
 **Still to do:** the pencil marker in the month grid (needs `dayComponent`; postponed),
 whether the „Poznámky" tab keeps its „Přidat poznámku" button (open question), 🟡 items
 from the last `mobile-ux-reviewer` run (placeholder color and the word „dnes" when editing
-a past day, pressed state on note cards, text hierarchy in cards, `ThemedText` has no
-default font), `app/record.jsx` „Zaznamenat cvičení" (with records per exercise).
+a past day, text hierarchy in cards: title and text are both 15 px), `app/record.jsx`
+„Zaznamenat cvičení" (with records per exercise). **Before release:** delete
+`MOCK_EXERCISED_DATES` from `storage/records.js` (test data in code, every install would
+see it).
 
 ## Keeping the docs alive
 

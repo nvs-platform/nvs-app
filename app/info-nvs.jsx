@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { spacing, typography } from '../constants/theme'
 import React from 'react'
 
 //themed components
@@ -33,16 +34,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screen,
   },
   title: {
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 26,
+    ...typography.headlineLg,
     textAlign: 'center',
   },
   text: {
-    fontFamily: 'NunitoSans_400Regular',
-    fontSize: 17,
+    ...typography.bodyLg,
     marginTop: 8,
     marginBottom: 32,
   },
