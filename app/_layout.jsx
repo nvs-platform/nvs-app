@@ -1,7 +1,8 @@
 import { Link, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Pressable, StyleSheet, View } from 'react-native'
-import { Heart, Ellipsis } from 'lucide-react-native'
+import { Ellipsis } from 'lucide-react-native'
+import { Image } from 'expo-image'
 import { useColors } from '../constants/theme'
 import {
   useFonts,
@@ -45,13 +46,15 @@ const RootLayout = () => {
         <Stack.Screen
           name="(tabs)"
           options={{
-            title: 'uživatel 1',
-            // Heart in the left corner of the header
+            title: 'Miuška',
+            // Cat avatar in the left corner of the header
             headerLeft: () => (
-              <View style={styles.avatar}>
-                <Heart size={20} color={palette.text} strokeWidth={2} />
-              </View>
+              <Image
+                source={require('../assets/img/avatar-cat.svg')}
+                style={styles.avatar}
+              />
             ),
+
             // Icon in the right corner opens the settings
             headerRight: () => (
               <Link href="/settings" asChild>
@@ -87,13 +90,9 @@ export default RootLayout
 
 const getStyles = (palette) =>
   StyleSheet.create({
-    avatar: {
+   avatar: {
       width: 36,
       height: 36,
-      borderRadius: 18,
-      backgroundColor: palette.greySurface,
-      alignItems: 'center',
-      justifyContent: 'center',
       marginRight: 12,
     },
   })
