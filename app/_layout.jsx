@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { Ellipsis } from 'lucide-react-native'
 import { Image } from 'expo-image'
+import DevButton from '../components/DevButton'
 import { useColors, fonts } from '../constants/theme'
 import {
   useFonts,
@@ -59,21 +60,28 @@ const RootLayout = () => {
               />
             ),
 
-            // Icon in the right corner opens the settings
+            // Icon in the right corner opens the settings,
+            // during development the dev button sits next to it
             headerRight: () => (
-              <Pressable
-                onPress={() => router.push('/settings')}
-                accessibilityLabel="Nastavení"
-                style={({ pressed }) => [pressed && styles.pressed]}
-              >
-                <Ellipsis size={24} color={palette.text} strokeWidth={2} />
-              </Pressable>
+              <View style={styles.headerRight}>
+                {__DEV__ && <DevButton />}
+                <Pressable
+                  onPress={() => router.push('/settings')}
+                  accessibilityLabel="Nastavení"
+                  style={({ pressed }) => [pressed && styles.pressed]}
+                >
+                  <Ellipsis size={24} color={palette.text} strokeWidth={2} />
+                </Pressable>
+              </View>
             ),
           }}
         />
         <Stack.Screen name="notes/[date]" options={{ title: 'Poznámka' }} />
 
-        <Stack.Screen name="workout" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="workout"
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
         {/* The big title on the page is enough; the way on is the „Hotovo" button */}
         <Stack.Screen name="done" options={{ headerShown: false }} />
         <Stack.Screen
@@ -101,6 +109,11 @@ const getStyles = (palette) =>
       width: 36,
       height: 36,
       marginRight: 12,
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 16,
     },
     pressed: {
       opacity: 0.7,

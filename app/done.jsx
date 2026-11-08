@@ -15,7 +15,7 @@ import Celebration from '../components/celebration/Celebration'
 import { celebrations } from '../components/celebration/celebrations'
 
 //storage
-import { addExercisedDate } from '../storage/records'
+import { addExerciseRecord } from '../storage/records'
 
 const DoneScreen = () => {
   const palette = useColors()
@@ -33,7 +33,7 @@ const DoneScreen = () => {
   const [buttonReady, setButtonReady] = useState(false)
 
   useEffect(() => {
-    addExercisedDate(format(new Date(), 'yyyy-MM-dd'))
+    addExerciseRecord(format(new Date(), 'yyyy-MM-dd'))
 
     Animated.timing(buttonIn, {
       toValue: 1,
