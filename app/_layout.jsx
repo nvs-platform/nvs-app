@@ -5,6 +5,8 @@ import { Ellipsis } from 'lucide-react-native'
 import { Image } from 'expo-image'
 import DevButton from '../components/DevButton'
 import { useColors, fonts } from '../constants/theme'
+import '../constants/calendarLocale'
+
 import {
   useFonts,
   NunitoSans_400Regular,

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { Link, useFocusEffect } from 'expo-router'
@@ -11,12 +11,28 @@ import ThemedButton from '../../components/ThemedButton'
 import ThemedCard from '../../components/ThemedCard'
 import { CalendarPlus, Check, Play } from 'lucide-react-native'
 import SeriesCard from '../../components/SeriesCard'
-import { getCurrentSeriesRecords } from '../../storage/records'
+import {
+  addExerciseRecord,
+  getCurrentSeriesRecords,
+} from '../../storage/records'
+
+import RecordSheet from '../../components/RecordSheet'
 
 const HomeScreen = () => {
   const palette = useColors()
   const styles = getStyles(palette)
   const [records, setRecords] = useState([])
+  // Points to the record window, so the icons can open it
+  const sheetRef = useRef(null)
+  const openRecordSheet = () => sheetRef.current?.present()
+
+  // Saves the day picked in the record window, then shows it on Home at once
+  const saveRecord = async (date) => {
+    await addExerciseRecord(date)
+    // The window lies over Home, so Home never loses focus and must reload itself
+    await loadRecords()
+    sheetRef.current?.dismiss()
+  }
 
   const loadRecords = async () => {
     setRecords(await getCurrentSeriesRecords())
@@ -64,10 +80,13 @@ const HomeScreen = () => {
                 </ThemedText>
 
                 <Pressable
-                  style={styles.recordButton}
+                  style={({ pressed }) => [
+                    styles.recordButton,
+                    pressed && styles.pressed,
+                  ]}
                   hitSlop={6}
                   accessibilityRole="button"
-                  accessibilityState={{ disabled: true }}
+                  onPress={openRecordSheet}
                   accessibilityLabel="Zaznamenat cvičení"
                 >
                   <CalendarPlus
@@ -88,8 +107,19 @@ const HomeScreen = () => {
           )}
         </ThemedCard>
 
-        <SeriesCard series={1} doneCount={doneCount} todayDone={todayDone} />
+        <SeriesCard
+          series={1}
+          doneCount={doneCount}
+          todayDone={todayDone}
+          onRecord={openRecordSheet}
+        />
       </ScrollView>
+
+      <RecordSheet
+        ref={sheetRef}
+        recordedDates={records.map((record) => record.date)}
+        onSave={saveRecord}
+      />
     </ThemedView>
   )
 }
@@ -154,7 +184,7 @@ const getStyles = (palette) =>
     todayDoneText: {
       ...typography.bodyMd,
       textAlign: 'center',
-      marginTop: 2,
+      marginTop: spacing['2xs'],
     },
     todayHeader: {
       flexDirection: 'row',
@@ -171,5 +201,9 @@ const getStyles = (palette) =>
       borderColor: palette.secondary,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    // Lighter while the finger is on the button, like the other buttons
+    pressed: {
+      opacity: 0.7,
     },
   })

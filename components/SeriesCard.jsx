@@ -66,10 +66,11 @@ const SeriesCard = ({
               accessibilityLabel={
                 status === 'record' ? 'Zaznamenat cvičení' : undefined
               }
-              style={[
+              style={({ pressed }) => [
                 styles.dayRow,
                 status === 'done' && styles.dayDone,
                 status === 'today' && styles.dayToday,
+                pressed && styles.pressed,
               ]}
             >
               <ThemedText style={styles.dayLabel}>{number}. cvičení</ThemedText>

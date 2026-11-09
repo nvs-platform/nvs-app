@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet } from 'react-native'
 import { useCallback, useState } from 'react'
-import { Calendar, LocaleConfig } from 'react-native-calendars'
+import { Calendar } from 'react-native-calendars'
 import { format, parseISO } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import { Link, useFocusEffect } from 'expo-router'
@@ -17,49 +17,6 @@ import NoteCard from '../../components/NoteCard'
 //storage
 import { getExercisedDates, getNotes } from '../../storage/records'
 import { Plus } from 'lucide-react-native'
-
-LocaleConfig.locales.cs = {
-  monthNames: [
-    'Leden',
-    'Únor',
-    'Březen',
-    'Duben',
-    'Květen',
-    'Červen',
-    'Červenec',
-    'Srpen',
-    'Září',
-    'Říjen',
-    'Listopad',
-    'Prosinec',
-  ],
-  monthNamesShort: [
-    'led',
-    'úno',
-    'bře',
-    'dub',
-    'kvě',
-    'čvn',
-    'čvc',
-    'srp',
-    'zář',
-    'říj',
-    'lis',
-    'pro',
-  ],
-  dayNames: [
-    'neděle',
-    'pondělí',
-    'úterý',
-    'středa',
-    'čtvrtek',
-    'pátek',
-    'sobota',
-  ],
-  dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
-  today: 'Dnes',
-}
-LocaleConfig.defaultLocale = 'cs'
 
 const CalendarScreen = () => {
   const palette = useColors()
