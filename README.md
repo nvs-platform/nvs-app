@@ -47,7 +47,9 @@ To add a dependency, use `npx expo install <package>` so the version matches the
 - Plain JavaScript (JSX), no TypeScript
 - Font: Nunito Sans
 - [react-native-calendars](https://github.com/wix/react-native-calendars): the month grid
-  in „Kalendář"
+  in „Kalendář" and in the record window
+- [Expo UI](https://docs.expo.dev/versions/latest/sdk/ui/drop-in-replacements/bottomsheet/)
+  (`@expo/ui`): the bottom sheet of the record window „Zaznamenat cvičení"
 - [AsyncStorage](https://react-native-async-storage.github.io/async-storage/): saves user
   records on the device
 - [date-fns](https://date-fns.org/): formats dates (`'yyyy-MM-dd'`, „24. října" with the
@@ -68,11 +70,12 @@ assets/         icons, splash screen and images
 components/     shared components (ThemedText, ThemedView, ThemedCard, NoteCard, …)
 constants/
   theme.js      design tokens: colors, fonts, spacing, radius
+  calendarLocale.js  Czech month and day names for all calendars
 docs/           product and design documentation
 scripts/        helper scripts (Android emulator)
 storage/
-  records.js    reads and writes user records on the device (AsyncStorage): exercised
-                days and notes (one note per day)
+  records.js    reads and writes user records on the device (AsyncStorage): exercise
+                records (date and series) and notes (one note per day)
 ```
 
 To format the code, run `npm run format` (Prettier, settings in `.prettierrc`), or press

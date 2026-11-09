@@ -126,22 +126,64 @@ the back arrow on detail screens, and the headerless exercise player.
   soft tinted shadow. Scales to 0.98 when pressed.
 - **Secondary button:** pill shape, muted surface fill, dark text, hairline border, no
   shadow.
-- **Encouragement button:** apricot fill with dark text. Use it only for completion and
-  rest moments.
+- **Encouragement button:** apricot fill with dark text. Use it only for completion
+  moments.
 - **Chips:** pill shape, 36 px tall, icon plus label. Inactive chips are beige; active
   chips are sage with white text.
-- **Home „Dnes" card:** card fill, 32 px radius, `lg` padding. Heading „Dnes" with a
+- **Home „Dnes" card:** `greySurface` fill (ready state), 32 px radius, `lg` padding. Heading „Dnes" with a
   calendar-plus icon on the right (Lucide `CalendarPlus`, `text` color, in a 36 px muted
   surface circle with a hairline border; touch area at least 44 px; accessibility label
   „Zaznamenat cvičení"), then the day line in body text, then the full-width primary
   button „Cvičíme dnes". It stays the strongest element on Home.
+  **Done state** (today exercised): the card keeps exactly the same height, so the series
+  card below doesn't jump. The card switches to the card fill (`card`, cream) with a 1 px
+  `beige` border, as in the agreed mockup; the content is centred both ways: a
+  56 px soft green circle (`mutedSurface`, the calendar's „odcvičeno" green) with a 30 px
+  Lucide `Check` in `text` color and 12 px below it, then „Dnes máte hotovo"
+  (`headlineMd`, 22 px, the same as the „Dnes" heading) and right under it (2 px)
+  „Další cvičení série na vás počká." in `bodyMd` (15 px). No heading, no button, no calendar-plus icon (it moves
+  to the next free series row).
 - **Home series card:** white (background color, not tinted, so it doesn't blend with the
-  rows), 32 px radius, hairline border. Heading „Série 1" with a primary-colored text link
-  „Vaše cesta ›" on the right. Below, 7 slim day rows (about 32 px tall, 16 px radius,
-  4 px apart, no thumbnails): completed = grey with „odcvičeno" in muted text, current =
-  green with a 1.5 px darker green border and „dnes", upcoming = soft pink with dark text.
-  Upcoming rows are never shown as disabled. The pink is a new color: add it to
-  `constants/theme.js` as a token like the others.
+  rows), hairline border. The heading „Série 1" (`headlineSm`, 19 px) with a
+  primary-colored text link „Vaše cesta ›" on the right sits **inside the card**, above
+  the rows (changed 2026-11-08), 24 px from the card's top and left edges like „Dnes", so
+  it lines up with the row text. Below, 7 slim rows (40–64 px tall, sharing the free
+  space, 16 px radius, 4 px apart, no thumbnails), labelled by the **order of exercises**
+  („1. cvičení", „2. cvičení", …), not by days. Only one week shows at a time: the week of
+  the next free exercise (rows 1–7, then 8–14, …), with no week label and no way to look
+  back (agreed 2026-11-09; „Kalendář" shows the history). Row states: done = white
+  (`background`) with a 1 px `beige` border and „odcvičeno"; today = `mutedSurface` with a
+  1 px `secondarySoft` border and „dnes"; upcoming = `pinkSurface` with dark text, never
+  shown as disabled. **Once today is done**, the next free row stays pink and gets the
+  calendar-plus icon on the right (28 px circle, `pinkSurface` fill, 1 px `tertiary`
+  border, 16 px icon); the whole row is tappable and opens the record window. The icon is
+  the same as in the „Dnes" card, but the circle takes the colors of the row it sits in,
+  because it is a secondary button there (decided 2026-11-09).
+- **Sheets (one look for every short task):** a short task after which the parent goes
+  back to where they were (recording a day, later the notes panel) opens as a window that
+  slides up from the bottom, never as a jump to another tab. Every sheet looks the same: a
+  small grab handle at the top, the question as the title (`headlineMd`), an optional
+  one-line hint in `bodySm`, the content, and at the bottom the full-width primary button
+  with a plain „Zrušit" text button under it (at least 48 px tall). Agreed 2026-11-09.
+  Built with `BottomSheet` from `@expo/ui/community/bottom-sheet`: a native sheet with
+  the system grab handle, a dimmed background, pull-down, tap-outside and back-button
+  dismiss; the sheet is as tall as its content and keeps the bottom safe-area inset.
+  (Expo Router's `presentation: 'formSheet'` opened on Android in Expo Go but was never
+  drawn, so it isn't used.)
+- **Record window** („Zaznamenat cvičení", `components/RecordSheet.jsx`, built
+  2026-11-09): a sheet with the title „Zaznamenat cvičení" and the hint „Vyberte den, kdy
+  jste cvičili mimo aplikaci.", then the **same month calendar as „Kalendář"**
+  (`react-native-calendars`, on the sheet's white) instead of the planned 14-day grid, so
+  the parent knows it. Only today and the 14 days before it can be picked (`minDate` /
+  `maxDate`); every free day in that range has a normal number, also the days of the
+  previous month at the start of the grid. Day states: selected = `primary` fill with
+  `onPrimary` number; free = plain number; recorded = `mutedSurface` (the „odcvičeno"
+  green) with a dark number, not tappable; outside the range = a faint number in `track`,
+  not tappable. Today is preselected while it is free, otherwise the latest free day.
+  The weeks are only 2 px apart (`weekVerticalMargin`), so the sheet fits a 360×640
+  phone. No line with the chosen day under the calendar (dropped 2026-11-09: the blue
+  circle already shows it). Then „Uložit záznam" (disabled when no day is free) and
+  „Zrušit".
 - **Note card** (`components/NoteCard.jsx`, used in „Poznámky" and „Kalendář"): card fill,
   32 px radius, a 1 px `textAlt` border (darker than hairline on purpose, so the notes
   stand out from the white page), title on the left and an outline pencil on the right,
@@ -155,8 +197,6 @@ the back arrow on detail screens, and the headerless exercise player.
 - **Checkbox and radio:** 24 px circles. Checked state is a primary fill with a white
   check.
 - **Player controls:** see „Exercise player" below.
-- **Rest timer:** a large circular dial with a muted track, a primary fill and rounded
-  bold numerals.
 - **Week progress:** gentle rounded "pebbles", not a hard progress bar or percentages.
 - **Icons:** [Lucide](https://lucide.dev) (`lucide-react-native`, needs `react-native-svg`),
   agreed on 2026-10-31. One set for the whole app: outline, 2 px rounded strokes, no
@@ -168,8 +208,7 @@ the back arrow on detail screens, and the headerless exercise player.
     (manual record).
   - Player: `ChevronLeft`, `RotateCcw`, `Play` / `Pause` and `SkipForward`; play, pause
     and skip are filled (`fill` = the icon color) so they read as media buttons.
-  - Good fits for later: `Leaf`, `Lightbulb` (parent tips), `Sprout` (progress), `Timer`
-    (rest).
+  - Good fits for later: `Leaf`, `Lightbulb` (parent tips), `Sprout` (progress).
 
 ## Exercise player
 

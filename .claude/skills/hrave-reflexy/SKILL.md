@@ -10,7 +10,9 @@ description: Project knowledge, design principles and the working workflow for "
 This is a calm Czech mobile app for **parents of children aged 4–6**. Each day, parent and
 child do a short program of **4 movement exercises** that support the integration of
 primary reflexes. The child watches the exercise video and the parent operates the app.
-The program has 12 series, each 7 days long.
+The program is a fixed sequence of series. A series is a set of (usually 4) exercises done
+for about 30 days; the parent moves to the next series themselves (brief section 4). There
+is no rest screen: the breaks are in the videos.
 It should feel like a **quality tool for parents and a calm shared ritual**, not a clinic.
 
 **We build in phases** (section 2 of the brief):
@@ -239,7 +241,10 @@ finish something („udělal bys to"), do it and explain what changed.
   `@marceloterreiro/flash-calendar`, which needs `@shopify/flash-list` and is built for
   infinite scrolling we don't need (one month plus ‹ › arrows).
 - **Czech and Monday first:** `LocaleConfig` with hand-written Czech month and day names
-  (kept by hand on purpose: easier to read than generating them), and `firstDay={1}`.
+  (kept by hand on purpose: easier to read than generating them) in
+  `constants/calendarLocale.js`, imported once in `app/_layout.jsx` so every calendar is
+  Czech; and `firstDay={1}`. The record window (`components/RecordSheet.jsx`) uses the
+  same `<Calendar>` with `minDate`/`maxDate` for the 14 days.
 - **Colors:** values from `useColors()` in `theme` (selected day `primary` with
   `onPrimary` text); no hex values.
 - **Exercised days:** `markingType="custom"` with `customStyles.container`
@@ -250,8 +255,10 @@ finish something („udělal bys to"), do it and explain what changed.
   „Odcvičeno" (card fill `mutedSurface`, like the grid marker) or „Zatím bez záznamu". Below
   it the `NoteCard` with the full text, or „Přidat poznámku" — only on exercised days,
   because a note belongs to an exercise.
-- **Data:** `storage/records.js` (`getExercisedDates`, `addExercisedDate`, `getNotes`,
-  `saveNote`, `deleteNote`, AsyncStorage); `done.jsx` saves today on open (to be moved:
+- **Data:** `storage/records.js` (exercise records `{ date, series }`:
+  `getExerciseRecords`, `getCurrentSeriesRecords`, `getExercisedDates`,
+  `addExerciseRecord`, `clearExerciseRecords`; notes: `getNotes`, `saveNote`, `deleteNote`;
+  AsyncStorage); `done.jsx` saves today on open (to be moved:
   after the workout the parent should land on the calendar, where an animation marks the
   day; decided 2026-11-07, built together with the calendar); the calendar
   loads days and notes in one `useFocusEffect` (`loadRecords`).
@@ -266,10 +273,11 @@ deletes after an `Alert` confirm. Notes are a calm look back after exercising (i
 **Still to do:** the pencil marker in the month grid (needs `dayComponent`; postponed),
 whether the „Poznámky" tab keeps its „Přidat poznámku" button (open question), 🟡 items
 from the last `mobile-ux-reviewer` run (placeholder color and the word „dnes" when editing
-a past day, text hierarchy in cards: title and text are both 15 px), `app/record.jsx`
-„Zaznamenat cvičení" (with records per exercise). **Before release:** delete
-`MOCK_EXERCISED_DATES` from `storage/records.js` (test data in code, every install would
-see it).
+a past day, text hierarchy in cards: title and text are both 15 px). The manual record
+„Zaznamenat cvičení" is built (`components/RecordSheet.jsx`, 2026-11-09). **Before
+release:** delete `MOCK_EXERCISE_RECORDS` from `storage/records.js` (test data in code,
+every install would see it) and `components/DevButton.jsx` with its line in
+`app/_layout.jsx`.
 
 ## Keeping the docs alive
 
