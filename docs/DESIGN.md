@@ -204,6 +204,9 @@ the back arrow on detail screens, and the headerless exercise player.
   - Tab bar: `House`, `CalendarDays`, `NotebookPen`, `Compass`, `CircleUser`. The active tab
     is shown by color (primary) and a stroke of 2.5 instead of 2.
   - Header: `Ellipsis` (Nastavení). The avatar is an SVG file, not a Lucide icon.
+  - Note rows: `EllipsisVertical` (⋮, upright so it isn't mixed up with the header's
+    `Ellipsis`) on the right opens the note menu (Upravit with `Pencil`, Smazat with
+    `Trash2` in red), in `textAlt`, 24 px.
   - Buttons and cards: `Plus`, `Play`, `Trash2`, `Pencil` (notes only), `CalendarPlus`
     (manual record).
   - Player: `ChevronLeft`, `RotateCcw`, `Play` / `Pause` and `SkipForward`; play, pause

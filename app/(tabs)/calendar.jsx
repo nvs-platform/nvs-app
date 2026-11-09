@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { Calendar } from 'react-native-calendars'
 import { format, parseISO } from 'date-fns'
 import { cs } from 'date-fns/locale'
-import { Link, useFocusEffect } from 'expo-router'
+import { useFocusEffect } from 'expo-router'
 
 //themed components
 import ThemedView from '../../components/ThemedView'
@@ -12,28 +12,29 @@ import { useColors, fonts, spacing, typography } from '../../constants/theme'
 import ThemedText from '../../components/ThemedText'
 import ThemedCard from '../../components/ThemedCard'
 import ThemedButton from '../../components/ThemedButton'
-import NoteCard from '../../components/NoteCard'
 
 //storage
-import { getExercisedDates, getNotes } from '../../storage/records'
-import { Plus } from 'lucide-react-native'
+import { getExercisedDates } from '../../storage/records'
+import { Pencil } from 'lucide-react-native'
 
 const CalendarScreen = () => {
   const palette = useColors()
-  const [selectedDate, setSelectedDate] = useState('')
+  const today = format(new Date(), 'yyyy-MM-dd')
+  // Today is selected from the start, so after „Hotovo" the parent sees today's card
+  const [selectedDate, setSelectedDate] = useState(today)
 
   const [exercisedDates, setExercisedDates] = useState([])
-  const [notes, setNotes] = useState([])
+
+  const loadRecords = async () => {
+    const dates = await getExercisedDates()
+    setExercisedDates(dates)
+  }
 
   useFocusEffect(
     useCallback(() => {
-      const loadRecords = async () => {
-        const dates = await getExercisedDates()
-        setExercisedDates(dates)
-        const savedNotes = await getNotes()
-        setNotes(savedNotes)
-      }
       loadRecords()
+      // The tab stays mounted, so select today again every time it opens
+      setSelectedDate(format(new Date(), 'yyyy-MM-dd'))
     }, []),
   )
 
@@ -43,7 +44,6 @@ const CalendarScreen = () => {
       : ''
 
   const isExercised = exercisedDates.includes(selectedDate)
-  const selectedNote = notes.find((note) => note.date === selectedDate)
 
   const markedDates = {}
   exercisedDates.forEach((date) => {
@@ -90,20 +90,15 @@ const CalendarScreen = () => {
             </ThemedCard>
             <Spacer height={12} />
 
-            {/* Card 2: the note, if there is one */}
-            {selectedNote && (
-              <NoteCard
-                note={selectedNote}
-                title="Poznámka"
-                showFullText={true}
+            {/* Notes are written right after exercising, so only exercised days get the button */}
+            {isExercised && (
+              <ThemedButton
+                title="Zapsat poznámky"
+                icon={Pencil}
+                variant="secondary"
+                // Will open the notes panel (bottom sheet), for now does nothing
+                onPress={() => {}}
               />
-            )}
-
-            {/* A note belongs to an exercise, so it can be added only on exercised days */}
-            {isExercised && !selectedNote && (
-              <Link href={`/notes/${selectedDate}`} asChild>
-                <ThemedButton title="Přidat poznámku" icon={Plus} />
-              </Link>
             )}
           </>
         )}

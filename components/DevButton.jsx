@@ -2,10 +2,10 @@ import { Pressable, StyleSheet, Text } from 'react-native'
 import { useNavigation } from 'expo-router'
 import { Skull } from 'lucide-react-native'
 import { useColors, typography, radius } from '../constants/theme'
-import { clearExerciseRecords } from '../storage/records'
+import { clearExerciseRecords, clearNotes } from '../storage/records'
 
 // Development only: small round button in the tabs header, next to the settings.
-// It deletes the saved exercise records (the mock ones in storage/records.js stay)
+// It deletes the saved exercise records (the mock ones in storage/records.js stay) and the notes
 // and opens Home again. On purpose an exception to "components don't touch storage":
 // everything is in this one file, so it's easy to delete before release.
 const DevButton = () => {
@@ -23,6 +23,7 @@ const DevButton = () => {
 
   const resetRecords = async () => {
     await clearExerciseRecords()
+    await clearNotes()
     reopenTabs()
   }
 
@@ -31,7 +32,7 @@ const DevButton = () => {
       onPress={resetRecords}
       style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       accessibilityRole="button"
-      accessibilityLabel="Vývoj: vymazat záznamy cvičení"
+      accessibilityLabel="Vývoj: vymazat záznamy cvičení a poznámky"
     >
       <Skull size={14} color={palette.background} strokeWidth={2} />
       <Text style={styles.label}>dev</Text>

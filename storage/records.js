@@ -70,7 +70,13 @@ export const getNotes = async () => {
   if (json === null) {
     return []
   }
-  return JSON.parse(json)
+  // Old notes (one per day, saved by saveNote) have no id and no „probráno".
+  // They get them here; the old model had one note per day, so the date makes the id unique
+  return JSON.parse(json).map((note) => ({
+    ...note,
+    id: note.id || `old-${note.date}`,
+    discussed: note.discussed || false,
+  }))
 }
 
 // Saves the note for one day. If the day already has a note, its text is replaced
@@ -90,4 +96,57 @@ export const deleteNote = async (date) => {
   const notes = await getNotes()
   const remainingNotes = notes.filter((note) => note.date !== date)
   await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(remainingNotes))
+}
+
+// Saves several new notes at once (one for each filled tab in the notes panel)
+// newNotes: for example [{ label: null, text: 'Děláme to správně?' }]
+// label null means „Obecně"
+export const addNotes = async (date, newNotes) => {
+  const notes = await getNotes()
+  newNotes.forEach((newNote, index) => {
+    notes.push({
+      // Time + order + a random part, so two saves in the same millisecond
+      // still get different ids
+      id: `${Date.now()}-${index}-${Math.random().toString(36).slice(2, 8)}`,
+      date: date,
+      text: newNote.text,
+      label: newNote.label,
+      discussed: false,
+    })
+  })
+  await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(notes))
+}
+
+// Ticks a note off as discussed („probráno"), or unticks it again
+export const toggleNoteDiscussed = async (id) => {
+  const notes = await getNotes()
+  const selectedNote = notes.find((note) => note.id === id)
+  if (selectedNote) {
+    selectedNote.discussed = !selectedNote.discussed
+  }
+  await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(notes))
+}
+
+// Changes the text and the label of one note (from the notes panel)
+export const updateNote = async (id, text, label) => {
+  const notes = await getNotes()
+  const selectedNote = notes.find((note) => note.id === id)
+  if (selectedNote) {
+    selectedNote.text = text
+    selectedNote.label = label
+  }
+  await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(notes))
+}
+
+// Deletes one note (from the notes panel, after the parent confirms it)
+export const deleteNoteById = async (id) => {
+  const notes = await getNotes()
+  const remainingNotes = notes.filter((note) => note.id !== id)
+  await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(remainingNotes))
+}
+
+// Deletes all notes (when the parent switches to the next series;
+// for now also the dev button, to clear old test notes)
+export const clearNotes = async () => {
+  await AsyncStorage.removeItem(NOTES_KEY)
 }

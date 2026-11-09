@@ -296,8 +296,11 @@ the app never asks the parent to write how the exercise went.
   during or after the visit; a ticked note is crossed out), the text (at most 2 lines,
   longer text ends with „…") and the date in small text. At the bottom the primary button
   „Přidat poznámky".
-- **Edit and delete:** tapping a note opens the notes panel with its full text, its label
-  and „Smazat" (with a confirmation). No three-dots menu for now (maybe later).
+- **Edit and delete:** each note row has an upright three-dots icon (⋮) on the right
+  (agreed 2026-11-09). It opens a small card right under the dots with „Upravit" (pencil)
+  and „Smazat" (bin, red); „Smazat" asks once for a confirmation. Tapping the note text
+  opens the notes panel with its full text and label. For now only the look is built:
+  „Upravit" and „Smazat" just close the card, and tapping the text does nothing.
 - **The notes panel** is a bottom sheet (agreed 2026-11-08). At the top, tabs with the
   labels: „Obecně" (selected first) and the exercises of the current series. Each tab has
   its own text field, and a tab that already has text shows a small dot, so the parent can
@@ -459,8 +462,7 @@ are placeholders from Pexels (author Ivan S) and will be replaced.
 - Sound in exercise videos (none, music or voice instructions) is not decided.
 - Notes (concept agreed 2026-11-08, see „Notes"): the exercise names for the labels are
   placeholders until the real program exists; the final tab title („Na konzultaci"?) and
-  texts; a marker for days with notes in the month grid (needs a custom day component);
-  maybe a three-dots menu on a note later.
+  texts; a marker for days with notes in the month grid (needs a custom day component).
 - **Next tasks** (agreed 2026-11-07, each one on its own):
   - **Lock today after „Hotovo".** Once today is exercised, Home shouldn't offer
     „Cvičíme dnes" again. Open: a calm message instead of the button (suggested, for
